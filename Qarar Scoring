@@ -1,0 +1,94 @@
+
+https://81.208.169.65/DecisionSmartInterfaceRestAPI.SAIB/api/Execute/ExecuteDecisionSmart?UniqueIdentifier=HF098765&DecisionFlowExternalReference=FinalFlow
+
+
+[
+    {
+    "CharacteristicName":"ApplicantAge",
+    "CharacteristicValue":"55.5"
+    },
+    {
+    "CharacteristicName":"GlobalDBR",
+    "CharacteristicValue":"25"
+    },
+    {
+    "CharacteristicName":"LengthOfService",
+    "CharacteristicValue":"15"
+    },
+    {
+    "CharacteristicName":"NetSalary",
+    "CharacteristicValue":"50000.00"
+    },
+    {
+    "CharacteristicName":"NumberOfDependents",
+    "CharacteristicValue":"5"
+    },
+    {
+    "CharacteristicName":"PropertyAge",
+    "CharacteristicValue":"5"
+    },
+    {
+    "CharacteristicName":"PropertyPrice",
+    "CharacteristicValue":"2500000.00"
+    },
+    {
+    "CharacteristicName":"RequestedAmount",
+    "CharacteristicValue":"2500000.00"
+    },
+    {
+    "CharacteristicName":"SIMAHScore",
+    "CharacteristicValue":"800"
+    },
+    {
+    "CharacteristicName":"Tenor",
+    "CharacteristicValue":"120"
+    },
+    {
+    "CharacteristicName":"ApplicationDate",
+    "CharacteristicValue":"12/08/2024"
+    },
+    {
+    "CharacteristicName":"ApplicationReference",
+    "CharacteristicValue":"AhmedKAlharbiTestCase0001"
+    },
+    {
+    "CharacteristicName":"EducationLevel",
+    "CharacteristicValue":"No education"
+    },
+    {
+    "CharacteristicName":"EmployerSector",
+    "CharacteristicValue":"Government"
+    },
+    {
+    "CharacteristicName":"GroupedEmployerSector",
+    "CharacteristicValue":"1"
+    },
+    {
+    "CharacteristicName":"FinanceType",
+    "CharacteristicValue":"Buy-Out"
+    },
+    {
+    "CharacteristicName":"Gender",
+    "CharacteristicValue":"Male"
+    },
+    {
+    "CharacteristicName":"MaritalStatus",
+    "CharacteristicValue":"Married"
+    },
+    {
+    "CharacteristicName":"ProductType",
+    "CharacteristicValue":"HF"
+    },
+    {
+    "CharacteristicName":"PropertyStatus",
+    "CharacteristicValue":"Off Plan"
+    },
+    {
+    "CharacteristicName":"PropertyType",
+    "CharacteristicValue":"Land"
+    },
+    {
+    "CharacteristicName":"ResidenceRegion",
+    "CharacteristicValue":"Central Region"
+    }
+]
