@@ -1,0 +1,299 @@
+-- Insert for Syria
+EXEC [dbo].[AddNewRecord]
+    @IDNumber = 'SY001',
+    @CustomerName = 'Syrian Arab Republic',
+    @CustomerNameAra = N'الجمهورية العربية السورية',
+    @SAMASource = 'SRC1',
+    @Comments1 = 'Dummy comment 1 for Syria',
+    @Comments2 = 'Dummy comment 2 for Syria',
+    @ReferenceNumber = '3DFDC800' OUTPUT,
+    @errCde = 0 OUTPUT,
+    @errDesc = 'Success' OUTPUT;
+
+-- Insert for Afghanistan
+EXEC [dbo].[AddNewRecord]
+    @IDNumber = 'AF001',
+    @CustomerName = 'Afghanistan',
+    @CustomerNameAra = N'أفغانستان',
+    @SAMASource = 'SRC2',
+    @Comments1 = 'Dummy comment 1 for Afghanistan',
+    @Comments2 = 'Dummy comment 2 for Afghanistan',
+    @ReferenceNumber = '3DFDCB00' OUTPUT,
+    @errCde = 0 OUTPUT,
+    @errDesc = 'Success' OUTPUT;
+
+-- Insert for Myanmar
+EXEC [dbo].[AddNewRecord]
+    @IDNumber = 'MM001',
+    @CustomerName = 'Myanmar',
+    @CustomerNameAra = N'ميانمار',
+    @SAMASource = 'SRC3',
+    @Comments1 = 'Dummy comment 1 for Myanmar',
+    @Comments2 = 'Dummy comment 2 for Myanmar',
+    @ReferenceNumber = '3E7DAC00' OUTPUT,
+    @errCde = 0 OUTPUT,
+    @errDesc = 'Success' OUTPUT;
+
+-- Insert for Iran
+EXEC [dbo].[AddNewRecord]
+    @IDNumber = 'IR001',
+    @CustomerName = 'Iran',
+    @CustomerNameAra = N'إيران',
+    @SAMASource = 'SRC4',
+    @Comments1 = 'Dummy comment 1 for Iran',
+    @Comments2 = 'Dummy comment 2 for Iran',
+    @ReferenceNumber = '3E7DAE00' OUTPUT,
+    @errCde = 0 OUTPUT,
+    @errDesc = 'Success' OUTPUT;
+
+-- Insert for North Korea
+EXEC [dbo].[AddNewRecord]
+    @IDNumber = 'KP001',
+    @CustomerName = 'Korea, North',
+    @CustomerNameAra = N'كوريا الشمالية',
+    @SAMASource = 'SRC5',
+    @Comments1 = 'Dummy comment 1 for North Korea',
+    @Comments2 = 'Dummy comment 2 for North Korea',
+    @ReferenceNumber = '3E7DAF00' OUTPUT,
+    @errCde = 0 OUTPUT,
+    @errDesc = 'Success' OUTPUT;
+
+-- Insert for Sudan
+EXEC [dbo].[AddNewRecord]
+    @IDNumber = 'SD001',
+    @CustomerName = 'Sudan, the Darfur region',
+    @CustomerNameAra = N'السودان - إقليم دارفور',
+    @SAMASource = 'SRC6',
+    @Comments1 = 'Dummy comment 1 for Sudan',
+    @Comments2 = 'Dummy comment 2 for Sudan',
+    @ReferenceNumber = '3DA25300' OUTPUT,
+    @errCde = 0 OUTPUT,
+    @errDesc = 'Success' OUTPUT;
+
+-- Insert for Venezuela
+EXEC [dbo].[AddNewRecord]
+    @IDNumber = 'VE001',
+    @CustomerName = 'Venezuela',
+    @CustomerNameAra = N'فنزويلا',
+    @SAMASource = 'SRC7',
+    @Comments1 = 'Dummy comment 1 for Venezuela',
+    @Comments2 = 'Dummy comment 2 for Venezuela',
+    @ReferenceNumber = '3DEBD500' OUTPUT,
+    @errCde = 0 OUTPUT,
+    @errDesc = 'Success' OUTPUT;
+
+-- Insert for Cuba
+EXEC [dbo].[AddNewRecord]
+    @IDNumber = 'CU001',
+    @CustomerName = 'Cuba',
+    @CustomerNameAra = N'كوبا',
+    @SAMASource = 'SRC8',
+    @Comments1 = 'Dummy comment 1 for Cuba',
+    @Comments2 = 'Dummy comment 2 for Cuba',
+    @ReferenceNumber = '3E7DC300' OUTPUT,
+    @errCde = 0 OUTPUT,
+    @errDesc = 'Success' OUTPUT;
+
+-- Insert for Deuterium
+EXEC [dbo].[AddNewRecord]
+    @IDNumber = 'GK001',
+    @CustomerName = 'Deuterium',
+    @CustomerNameAra = N'الديوتيريوم',
+    @SAMASource = 'SRC9',
+    @Comments1 = 'Dummy comment 1 for Deuterium',
+    @Comments2 = 'Dummy comment 2 for Deuterium',
+    @ReferenceNumber = '3E7DBB00' OUTPUT,
+    @errCde = 0 OUTPUT,
+    @errDesc = 'Success' OUTPUT;
+
+-- Insert for Heavy water
+EXEC [dbo].[AddNewRecord]
+    @IDNumber = 'GK002',
+    @CustomerName = 'Heavy water',
+    @CustomerNameAra = N'الماء الثقيل',
+    @SAMASource = 'SRC10',
+    @Comments1 = 'Dummy comment 1 for Heavy water',
+    @Comments2 = 'Dummy comment 2 for Heavy water',
+    @ReferenceNumber = '3E7DBC00' OUTPUT,
+    @errCde = 0 OUTPUT,
+    @errDesc = 'Success' OUTPUT;
+
+-- Insert for Graphite
+EXEC [dbo].[AddNewRecord]
+    @IDNumber = 'GK003',
+    @CustomerName = 'Graphite',
+    @CustomerNameAra = N'الجرافيت',
+    @SAMASource = 'SRC11',
+    @Comments1 = 'Dummy comment 1 for Graphite',
+    @Comments2 = 'Dummy comment 2 for Graphite',
+    @ReferenceNumber = '3E7DBD00' OUTPUT,
+    @errCde = 0 OUTPUT,
+    @errDesc = 'Success' OUTPUT;
+
+-- Insert for Boron equivalent
+EXEC [dbo].[AddNewRecord]
+    @IDNumber = 'GK004',
+    @CustomerName = 'Boron equivalent',
+    @CustomerNameAra = N'البورون المكافئ',
+    @SAMASource = 'SRC12',
+    @Comments1 = 'Dummy comment 1 for Boron equivalent',
+    @Comments2 = 'Dummy comment 2 for Boron equivalent',
+    @ReferenceNumber = '3DFDC800' OUTPUT,
+    @errCde = 0 OUTPUT,
+    @errDesc = 'Success' OUTPUT;
+
+-- Insert for Nickel
+EXEC [dbo].[AddNewRecord]
+    @IDNumber = 'GK005',
+    @CustomerName = 'Nickel',
+    @CustomerNameAra = N'النيكل',
+    @SAMASource = 'SRC13',
+    @Comments1 = 'Dummy comment 1 for Nickel',
+    @Comments2 = 'Dummy comment 2 for Nickel',
+    @ReferenceNumber = '3DFDCB00' OUTPUT,
+    @errCde = 0 OUTPUT,
+    @errDesc = 'Success' OUTPUT;
+
+-- Insert for Aluminum oxide
+EXEC [dbo].[AddNewRecord]
+    @IDNumber = 'GK006',
+    @CustomerName = 'Aluminum oxide',
+    @CustomerNameAra = N'أكسيد الألمنيوم',
+    @SAMASource = 'SRC14',
+    @Comments1 = 'Dummy comment 1 for Aluminum oxide',
+    @Comments2 = 'Dummy comment 2 for Aluminum oxide',
+    @ReferenceNumber = '3E7DAC00' OUTPUT,
+    @errCde = 0 OUTPUT,
+    @errDesc = 'Success' OUTPUT;
+
+-- Insert for Fully fluorinated hydrocarbon polymers
+EXEC [dbo].[AddNewRecord]
+    @IDNumber = 'GK007',
+    @CustomerName = 'Fully fluorinated hydrocarbon polymers',
+    @CustomerNameAra = N'البوليمرات الهيدروكربونية المفلورة بالكامل',
+    @SAMASource = 'SRC15',
+    @Comments1 = 'Dummy comment 1 for Fully fluorinated hydrocarbon polymers',
+    @Comments2 = 'Dummy comment 2 for Fully fluorinated hydrocarbon polymers',
+    @ReferenceNumber = '3E7DAE00' OUTPUT,
+    @errCde = 0 OUTPUT,
+    @errDesc = 'Success' OUTPUT;
+
+-- Insert for Zirconium metal
+EXEC [dbo].[AddNewRecord]
+    @IDNumber = 'GK008',
+    @CustomerName = 'Zirconium metal',
+    @CustomerNameAra = N'معدن الزركونيوم',
+    @SAMASource = 'SRC16',
+    @Comments1 = 'Dummy comment 1 for Zirconium metal',
+    @Comments2 = 'Dummy comment 2 for Zirconium metal',
+    @ReferenceNumber = '3E7DAF00' OUTPUT,
+    @errCde = 0 OUTPUT,
+    @errDesc = 'Success' OUTPUT;
+
+-- Insert for Nuclear reactor
+EXEC [dbo].[AddNewRecord]
+    @IDNumber = 'GK009',
+    @CustomerName = 'Nuclear reactor',
+    @CustomerNameAra = N'مفاعل نووي',
+    @SAMASource = 'SRC17',
+    @Comments1 = 'Dummy comment 1 for Nuclear reactor',
+    @Comments2 = 'Dummy comment 2 for Nuclear reactor',
+    @ReferenceNumber = '3DA25300' OUTPUT,
+    @errCde = 0 OUTPUT,
+    @errDesc = 'Success' OUTPUT;
+
+-- Insert for Hafnium
+EXEC [dbo].[AddNewRecord]
+    @IDNumber = 'GK010',
+    @CustomerName = 'Hafnium',
+    @CustomerNameAra = N'هافنيوم',
+    @SAMASource = 'SRC18',
+    @Comments1 = 'Dummy comment 1 for Hafnium',
+    @Comments2 = 'Dummy comment 2 for Hafnium',
+    @ReferenceNumber = '3DEBD500' OUTPUT,
+    @errCde = 0 OUTPUT,
+    @errDesc = 'Success' OUTPUT;
+
+-- Insert for HSCode 010310000000
+EXEC [dbo].[AddNewRecord]
+    @IDNumber = 'HS001',
+    @CustomerName = '010310000000',
+    @CustomerNameAra = NULL,
+    @SAMASource = 'SRC19',
+    @Comments1 = 'Dummy comment 1 for HSCode 010310000000',
+    @Comments2 = 'Dummy comment 2 for HSCode 010310000000',
+    @ReferenceNumber = '3E7DC300' OUTPUT,
+    @errCde = 0 OUTPUT,
+    @errDesc = 'Success' OUTPUT;
+
+-- Insert for HSCode 010391000000
+EXEC [dbo].[AddNewRecord]
+    @IDNumber = 'HS002',
+    @CustomerName = '010391000000',
+    @CustomerNameAra = NULL,
+    @SAMASource = 'SRC20',
+    @Comments1 = 'Dummy comment 1 for HSCode 010391000000',
+    @Comments2 = 'Dummy comment 2 for HSCode 010391000000',
+    @ReferenceNumber = '3E7DBB00' OUTPUT,
+    @errCde = 0 OUTPUT,
+    @errDesc = 'Success' OUTPUT;
+
+-- Insert for HSCode 010392000000
+EXEC [dbo].[AddNewRecord]
+    @IDNumber = 'HS003',
+    @CustomerName = '010392000000',
+    @CustomerNameAra = NULL,
+    @SAMASource = 'SRC21',
+    @Comments1 = 'Dummy comment 1 for HSCode 010392000000',
+    @Comments2 = 'Dummy comment 2 for HSCode 010392000000',
+    @ReferenceNumber = '3E7DBC00' OUTPUT,
+    @errCde = 0 OUTPUT,
+    @errDesc = 'Success' OUTPUT;
+
+-- Insert for HSCode 020311000000
+EXEC [dbo].[AddNewRecord]
+    @IDNumber = 'HS004',
+    @CustomerName = '020311000000',
+    @CustomerNameAra = NULL,
+    @SAMASource = 'SRC22',
+    @Comments1 = 'Dummy comment 1 for HSCode 020311000000',
+    @Comments2 = 'Dummy comment 2 for HSCode 020311000000',
+    @ReferenceNumber = '3E7DBD00' OUTPUT,
+    @errCde = 0 OUTPUT,
+    @errDesc = 'Success' OUTPUT;
+
+-- Insert for HSCode 020312000000
+EXEC [dbo].[AddNewRecord]
+    @IDNumber = 'HS005',
+    @CustomerName = '020312000000',
+    @CustomerNameAra = NULL,
+    @SAMASource = 'SRC23',
+    @Comments1 = 'Dummy comment 1 for HSCode 020312000000',
+    @Comments2 = 'Dummy comment 2 for HSCode 020312000000',
+    @ReferenceNumber = '3DFDC800' OUTPUT,
+    @errCde = 0 OUTPUT,
+    @errDesc = 'Success' OUTPUT;
+
+-- Insert for HSCode 020319000000
+EXEC [dbo].[AddNewRecord]
+    @IDNumber = 'HS006',
+    @CustomerName = '020319000000',
+    @CustomerNameAra = NULL,
+    @SAMASource = 'SRC24',
+    @Comments1 = 'Dummy comment 1 for HSCode 020319000000',
+    @Comments2 = 'Dummy comment 2 for HSCode 020319000000',
+    @ReferenceNumber = '3DFDCB00' OUTPUT,
+    @errCde = 0 OUTPUT,
+    @errDesc = 'Success' OUTPUT;
+
+-- Insert for HSCode 020321000000
+EXEC [dbo].[AddNewRecord]
+    @IDNumber = 'HS007',
+    @CustomerName = '020321000000',
+    @CustomerNameAra = NULL,
+    @SAMASource = 'SRC25',
+    @Comments1 = 'Dummy comment 1 for HSCode 020321000000',
+    @Comments2 = 'Dummy comment 2 for HSCode 020321000000',
+    @ReferenceNumber = '3E7DAC00' OUTPUT,
+    @errCde = 0 OUTPUT,
+    @errDesc = 'Success' OUTPUT;
