@@ -1,0 +1,32 @@
+CR/Project Number,Description,Task Done,Current Stage
+CR#23000024489,SARIE transfer Production issue (authorize),,Done
+CR#24000024486,To amend the billers name length to be 100X in all channels,,UAT
+Defect# 23258,ICE - CR#24000028351- ICE System is not allowing the user to update the alert services,,Done
+Project- ITCAP24032,"Integrate PF, HF and CC with Qarar Scoring Decision Engine for credit scoring modeling",,UAT
+Incident# 299059,TDOX - The account statement does not appear to the customer,,Done
+Incident# 289872,TDOX - Missing Transaction from Travel Card Statement,,Done
+Incident# 290413,TDOX - Missing Transaction from Travel Card Statement,,Done
+Incident# 290416,TDOX - Missing Transaction from Travel Card Statement,,Done
+Incident#281708,TDOX - Missing Travel Card CIF:244387 Statement for month of Aug,,Done
+Incident# 279222,TDOX - Missing Transaction from Travel Card Statement,,Done
+CR#24000029140,"ICE - Compatibility issue with our ICE application, The new IBM MQ Client, which we are required to use, requires a minimum .NET Framework version of 4.7.2.",,Development
+CR#24000027775,VDOX - Scan all folder content and delete files with extension .arc only if the file is older than 3 months,,Done
+CR#24000029044,ANTS - Production Issue Incident No: S272738 A permanent fix is required to resolve the duplicate key insertion issue in the OFAC_MAIN table,,Done
+Incident# 272738,ANTS - primary key in the ANTS DB table has reached its maximum value,,Done
+Incident# 274027,TDOX - Travel Card statement for the other travel card wallet,,Done
+Incident# 277335,TDOX - The account statement does not appear to the customer,,Done
+CR# 24000027886,Upgrade Java version for TCR UAT and PRD environments,,Done
+CR#23000024489,ONYX - When trying to approve SARIE transfer with amount of 4 Billions it is failed to authorize the payment,,Done
+CR#23000024950,ICE - Fixing PT issue. STRING ANALYSIS WITH SENSITIVE DATA EXPOSURE.,,Done
+CR#24000026933,ANTS Sanction TI ITCAP24026 the updated plan for Trade Screening (FBTI system with ANTS),,UAT
+CR# 24000025950,Update the source of funds list,,Done
+CR#23000023948,Integrate sailpoint with SVS,,Done
+CR#24000026110,ICE - To enable account statement view/print for staff for equation role (68),,Done
+CR#24000025721,ICE - E save account profit to be 3% for McKinsey employee,,Done
+CR#23000023948,SVS - Integrate sailpoint with SVS,,SIT
+CR#22000018025,ICE - Add ICE function to remove token corporate nominee detail access security,,UAT
+CR#22000016582,ICE - Add ID validation on CIB Nominee,,Done
+CR#23000023820,"VDOX - Add in customer account statement (Account Status), if it is as following block code and from last Debit/Credit transaction.",,Done
+CR#23000021019,ICE - AML add the relationship with the beneficiary in beneficiaries list in ICE,,Done
+CR#24000025822,TFS-DevOps Upgrade,,Done
+Task,Update ANTS Daily Extract (FirecoSoft Project),,Done
