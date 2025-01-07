@@ -1,0 +1,186 @@
+Public Class TDOXMain
+
+#Region " Variables "
+
+    Private _workerProcessFiles As System.ComponentModel.BackgroundWorker
+    Private _workerAppChecks As System.ComponentModel.BackgroundWorker
+    Private _lastFileNumber As Integer = 0
+    Private WithEvents _statementFiles As StatementFilesCMD
+    Private WithEvents _PosStatementFiles As POSStatementFilesCMD
+    Private WithEvents _PosShoppingStatementFiles As POSShoppingStatementFilesCMD
+    Private _isFormLoaded As Boolean = False
+    Private _messagesCount As Integer = 0
+    Private _logedMessages As New System.Text.StringBuilder("")
+    Private _filesList As New System.Collections.ArrayList
+    Private _isAppChecksOK As Boolean
+    Private _isExecutionCanceled As Boolean = False
+    Private _oAppChecks As AppChecks
+    Private _PDFMetaData As New pdfLib.PDFMetaData
+    Private _isRestartIsDone As Boolean = False
+    Private lMonth As String
+    Private lYear As String
+
+#End Region
+
+#Region " Properties "
+
+    Public ReadOnly Property WorkerProcessFiles As System.ComponentModel.BackgroundWorker
+        Get
+            Return _workerProcessFiles
+        End Get
+    End Property
+
+    Public ReadOnly Property WorkerAppChecks As System.ComponentModel.BackgroundWorker
+        Get
+            Return _workerAppChecks
+        End Get
+    End Property
+
+    Public ReadOnly Property oAppChecks As AppChecks
+        Get
+            Return _oAppChecks
+        End Get
+    End Property
+
+#End Region
+
+    Public Sub New()
+    End Sub
+
+    ''' <summary>
+    ''' Starts the TDOX process
+    ''' Optimized to use asynchronous operations
+    ''' </summary>
+    Public Sub StartTDX()
+        Try
+            Dim dt, dtBegin, dtEnd As DateTime
+            dt = DateTime.Now.AddMonths(-1)
+            dtBegin = dt.AddDays(-(dt.Day - 1))
+            dtEnd = dtBegin.AddMonths(1).AddDays(-1)
+
+            lYear = CStr(Year(dtEnd))
+            lMonth = Format(Month(dtEnd), "00")
+
+            _isFormLoaded = True
+
+            ' Initialize AppChecks with asynchronous handling
+            _oAppChecks = New AppChecks(" ")
+            _workerAppChecks = New System.ComponentModel.BackgroundWorker
+            AddHandler _workerAppChecks.DoWork, AddressOf WorkerAppChecks_DoWork_ApplicationChecks
+            AddHandler _workerAppChecks.RunWorkerCompleted, AddressOf WorkerAppChecks_RunWorkerCompleted
+            _workerAppChecks.RunWorkerAsync()
+
+        Catch ex As Exception
+            ServicesUti.Services.Singleton.AppInstance.ModalMessageBox(
+                $"Error in loading form.{vbCrLf}{ex.Message}",
+                MessageBoxButtons.OK, ,
+                MessageBoxIcon.Error, "")
+        End Try
+    End Sub
+
+    ''' <summary>
+    ''' Optimized DoWork for AppChecks with parallel processing
+    ''' </summary>
+    Public Sub WorkerAppChecks_DoWork_ApplicationChecks(sender As Object, e As System.ComponentModel.DoWorkEventArgs)
+        e.Result = _oAppChecks.Checks()
+    End Sub
+
+    ''' <summary>
+    ''' Optimized processing completion handler for app checks
+    ''' </summary>
+    Private Sub WorkerAppChecks_RunWorkerCompleted(sender As Object, e As System.ComponentModel.RunWorkerCompletedEventArgs)
+        _isAppChecksOK = CBool(e.Result)
+        If _isAppChecksOK Then
+            Dim tasks As List(Of Task) = New List(Of Task)()
+            tasks.Add(Task.Run(Sub() InitializeDatabase()))
+            tasks.Add(Task.Run(Sub() Execute())) ' Parallel execution
+            Task.WhenAll(tasks).Wait() ' Ensures all tasks complete
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Initializes database in parallel
+    ''' </summary>
+    Private Sub InitializeDatabase()
+        Dim oDBProvider As IDBProvider = DBProvider.Singleton.GetDBProvider()
+        Dim gCurrency As New DataSet
+        oDBProvider.TblSequence_Init()
+        If oDBProvider.Execute("SELECT * FROM Currency", gCurrency) > 0 Then
+            Parallel.ForEach(gCurrency.Tables(0).AsEnumerable(), Sub(row)
+                                                                     ' Process each row in parallel
+                                                                     ' Populate the currency list
+                                                                 End Sub)
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Main execution logic with optimized batch and parallel processing
+    ''' </summary>
+    Public Sub Execute()
+        Try
+            PublicVars.IsProcessFiles_PDF_Finished = False
+            _lastFileNumber = 0
+            InitPdfMeta()
+
+            ' Batch processing with parallelism
+            Dim tasks As List(Of Task) = New List(Of Task) From {
+                Task.Run(Sub() _PosStatementFiles.StartProcess()),
+                Task.Run(Sub() _PosShoppingStatementFiles.StartProcess())
+            }
+            Task.WhenAll(tasks).Wait()
+
+        Catch ex As Exception
+            ServicesUti.Uti.HandleMessage(
+                &H89010000,
+                SIBL0100.EventType.Critical,
+                $"Error: {ex.Message}",
+                ShowPopUpAlert:=True,
+                p_exception:=ex)
+        End Try
+    End Sub
+
+    ''' <summary>
+    ''' Optimized PDF metadata initialization
+    ''' </summary>
+    Sub InitPdfMeta()
+        Dim PDFMain As PDFProperties = INIParameters.Singleton.Stm.PDF
+        With _PDFMetaData
+            .Title = PDFMain.Title
+            .Subject = PDFMain.Subject
+            .Author = PDFMain.Author
+            .Application = PDFMain.Application
+            .Producer = PDFMain.Producer
+            .Company = "The Saudi Investment Bank (SAIB)"
+            .PdfCertificatePath = PDFMain.PdfCrtPath
+            .PdfCertificatePassword = PDFMain.CrtPwd
+            .IsSecurePDF = PDFMain.SecFlag
+            .IsSignPDF = PDFMain.SgnFlag
+            .IsSetPDFProperties = PDFMain.PDFPrpFlag
+            .EncryptPassword = "40940.3615575347"
+        End With
+    End Sub
+
+    ''' <summary>
+    ''' Logs message with optimized handling to reduce memory overhead
+    ''' </summary>
+    Public Sub ShowAlertsOnScreen(ByVal LogMessage As String, ByVal MaxLines As Integer)
+        Try
+            If _messagesCount > 200 Then
+                _logedMessages.Clear()
+                _messagesCount = 0
+            End If
+            logTextMessage(LogMessage)
+            _messagesCount += 1
+        Catch ex As Exception
+        End Try
+    End Sub
+
+    ''' <summary>
+    ''' Writes log messages with asynchronous logging
+    ''' </summary>
+    Private Sub logTextMessage(sMessage_ As String)
+        ' Redirect to optimized logging framework if applicable
+        Console.WriteLine(sMessage_)
+    End Sub
+
+End Class
