@@ -1,454 +1,496 @@
 using System;
 using System.Collections.Generic;
-using Microsoft.SharePoint.Client;
-using Hyland.Unity;
-using System.Configuration;
+using System.Globalization;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using Common.Definitions.ServicesManagement;
+using VeriBranch.Framework.Definitions;
+using VeriBranch.WebApplication.CustomControls;
+using VeriBranch.WebApplication.Helpers;
+using VeriBranch.WebApplication.UIProcess;
+using VeriBranch.WebApplication.Common;
+using VeriBranch.WebApplication.Constants;
+using System.Data;
 
-namespace SAIB.OnBase.CRM.Archival.Core
+public partial class CVUTransactionsList : VeriBranchTransactionCommonBasePage
 {
-    public class CRM : BaseClass
+    CultureInfo ci = new CultureInfo(HelperBase.EnglishCulture);
+
+    protected override void GetStateFromUI()
     {
-        static Hyland.Unity.Application app = null;
-        int totalProcessedFolders = 0, totalFailedFolders = 0, totalSuccessFolders = 0, totalSuccessFiles = 0, totalFailedFiles = 0, totalFoldersNoNeedToArchive = 0, TotalNumberofEmptyFolders = 0;
-        private static readonly ILog log = LogManager.GetLogger(typeof(CRM));
-        DateTime Start;
+        grdTransactionList.SaveStateEvent += GridView_SaveStateEvent;
+        grdTransactionList.LoadStateEvent += GridView_LoadStateEvent;
+    }
 
-        public void Execute()
+    protected override void SetUIFromState()
+    {
+    }
+
+    protected override void DoPageAction()
+    {
+        var txnName = SafePageController.QueryStrings["TxnName"];
+
+        if (txnName == TransactionNameContants.BRANCH_CVU_REVERTED_TRANSACTIONS && !ServicesHelper.IsBranchEnabledForCVUWorkflow)
         {
-            #region Get The Configuration List
+            SafePageController.PageControllerRedirect("~/InternalOperations/TransactionPad.aspx");
+        }
 
-            ListItemCollection PeriodListColl = SharePointHelper.GetPeriodList(sp);
+        var branch = "";
+        DataTable branches = new DataTable();
+        branches.Columns.Add("BranchCode");
+        branches.Columns.Add("BranchName");
 
-            log.Info("Connect To Retention Period  " + " At =  " + DateTime.Now.ToString());
-            Console.WriteLine("Connect To Retention Period  " + " At =  " + DateTime.Now.ToString());
-
-            #endregion
-
-            // connect to OnBase
-            InitateOnBaseApplication();
-
-            foreach (ListItem configListItems in PeriodListColl)
+        try
+        {
+            branch = ServicesHelper.GetBranchNameByCode(SafePageController.Performer.User.BranchCode);
+            var nr = branches.NewRow();
+            nr["BranchCode"] = SafePageController.Performer.User.BranchCode;
+            nr["BranchName"] = branch;
+            branches.Rows.Add(nr);
+            if (txnName == TransactionNameContants.CVU_AUTHORIZE_BRANCH_TELLER_BATCHES)
             {
-                string RowLimit = null;
+                branches = ServicesHelper.DoUserBranchHierarchyInquiry(GetPrivilegeDepth(txnName));
+            }
+        }
+        catch (Exception)
+        {
 
-                try
+        }
+        ctlBranchLookup.DataTable = branches;
+
+        //if (branches.Rows.Count == 1 && txnName == TransactionNameContants.BRANCH_CVU_REVERTED_TRANSACTIONS)
+        if (branches.Rows.Count == 1 && (txnName == TransactionNameContants.BRANCH_CVU_REVERTED_TRANSACTIONS || txnName == TransactionNameContants.CVU_BRANCH_TELLER_BATCHES))
+        {
+            //ctlBranchLookup.PopulateValue(branches.Rows[0][VpPageControllerConstants.Branch.BranchCode.ToString()].ToString());
+            ctlBranchLookup.PopulateValue(SafePageController.Performer.User.BranchCode);
+            ctlBranchLookup.Enabled = false;
+        }
+
+
+        ResetBranchUsers();
+        LoadCVUStatus();
+        LoadTransactionNames();
+
+        ctlFromDate.ChosenDate = DateTime.Today.AddDays(-7);
+        ctlToDate.ChosenDate = DateTime.Today;
+
+        grdTransactionList.SaveStateEvent += GridView_SaveStateEvent;
+        grdTransactionList.LoadStateEvent += GridView_LoadStateEvent;
+
+        HandlePostBack(btnDisplay);
+
+
+
+        try
+        {
+            if (Request.UrlReferrer.AbsolutePath.EndsWith("CVUTransactionDetails.aspx"))
+            {
+                var request = SafePageController.GetProfileValue("VpOnlineTransactionListInquiryRequest") as VpOnlineTransactionListInquiryRequest;
+
+                if (request != null)
                 {
-                    #region Fill the Configuration Parameter
-
-                    string listName = configListItems.FieldValues["Title"].ToString();
-                    List list = sp.GetListByTitle(listName);
-
-                    if (configListItems.FieldValues["RowLimit"].ToString() == "0")
-                        RowLimit = "100";
-                    else
-                        RowLimit = configListItems.FieldValues["RowLimit"].ToString();
-
-                    #endregion
-
-                    // Connect To OnBase
-                    // InitateOnBaseApplication();
-
-                    Hyland.Unity.DocumentType documentType = app.Core.DocumentTypes.Find(Convert.ToInt64(configListItems.FieldValues["OBDocTypeId"].ToString()));
-
-                    if (list.BaseType.ToString() == "DocumentLibrary" && documentType != null) // check if the list exist in OnBase
+                    if (request.TransactionName != null)
                     {
-                        #region Get List of folders from SP
-
-                        ListItemCollection listOfFolders = null;
-
-                        try
-                        {
-                            string Period = configListItems.FieldValues["Period"].ToString();
-                            string ArchiveStartDate = Convert.ToDateTime(configListItems.FieldValues["ArchiveStartDate"].ToString()).ToString("yyyy-MM-ddTHH:mm:ssZ");
-
-                            listOfFolders = SharePointHelper.GetFolders(sp, RowLimit, Period, ArchiveStartDate, list);
-
-                            #region Logs
-
-                            log.Info("Working on archiving List " + configListItems.FieldValues["Title"].ToString() + " At =  " + DateTime.Now.ToString());
-                            Console.WriteLine("Working on archiving List " + configListItems.FieldValues["Title"].ToString() + " At =  " + DateTime.Now.ToString());
-
-                            log.Info("RowLimit = " + RowLimit + " and the actual number of data retrieved from " + configListItems.FieldValues["Title"].ToString() + " is " + listOfFolders.Count);
-                            Console.WriteLine("RowLimit = " + RowLimit + " and the actual number of data retrieved from " + configListItems.FieldValues["Title"].ToString() + " is " + listOfFolders.Count);
-
-                            #endregion
-                        }
-                        catch (Exception ex)
-                        {
-                            ErrorFunction(ex, false);
-                            continue;
-                        }
-
-                        #endregion
-
-                        int libCount = -1;
-
-                        #region loop in the list of folders
-
-                        foreach (ListItem rootItem in listOfFolders)
-                        {
-                            libCount = libCount + 1;
-                            int archiveAction = 1; // default 1 -> Archive
-
-                            #region check if the type is Folder
-
-                            if (rootItem.FileSystemObjectType == FileSystemObjectType.Folder)
-                            {
-                                totalProcessedFolders += 1;
-                                Folder folder = sp.GetFolderItems(rootItem["FileRef"].ToString());
-                                bool ErrorOnArchiveItem = false;
-
-                                #region Get All Subfolders up to 4 levels
-
-                                List<ListItem> allFolders = new List<ListItem>();
-                                SharePointHelper.GetAllFoldersAndSubfolders(sp, list, allFolders, rootItem["FileRef"].ToString());
-
-                                foreach (ListItem subFolderItem in allFolders)
-                                {
-                                    // Process each subfolder
-                                    Folder subFolder = sp.GetFolderItems(subFolderItem["FileRef"].ToString());
-                                    ProcessFolder(sp, app, subFolder, configListItems, documentType, list, ref libCount, ref totalProcessedFolders, ref totalSuccessFiles, ref totalFailedFiles, ref totalSuccessFolders, ref totalFailedFolders, ref totalFoldersNoNeedToArchive, ref TotalNumberofEmptyFolders);
-                                }
-
-                                #endregion
-
-                                // Process the root folder itself
-                                ProcessFolder(sp, app, folder, configListItems, documentType, list, ref libCount, ref totalProcessedFolders, ref totalSuccessFiles, ref totalFailedFiles, ref totalSuccessFolders, ref totalFailedFolders, ref totalFoldersNoNeedToArchive, ref TotalNumberofEmptyFolders);
-                            }
-
-                            #endregion
-                        }
-
-                        #endregion
+                        var selectedTxnName = request.TransactionName.FirstOrDefault();
+                        if (!string.IsNullOrEmpty(selectedTxnName) && ddlTransactionName.Items.FindByValue(selectedTxnName) != null)
+                            ddlTransactionName.SelectedValue = selectedTxnName;
                     }
+                    ctlFromDate.ChosenDate = request.BeginDate;
+                    ctlToDate.ChosenDate = request.EndDate;
+                    if (request.CVUStatus != null && request.CVUStatus.Count > 0)
+                        ddlCVUStatus.SelectedValue = request.CVUStatus.FirstOrDefault().ToString();
 
-                    DateTime End = DateTime.Now;
-                    log.Info("Finished! " + DateTime.Now.ToString());
-                    Console.WriteLine("Finished! " + DateTime.Now.ToString());
+                    if (ctlBranchLookup.HasValue(request.PerformerBranchCode))
+                        ctlBranchLookup.PopulateValue(request.PerformerBranchCode);
 
-                    log.Info("Total no of document archived:" + totalSuccessFiles);
-                    log.Info("Total no of applications archived:" + totalSuccessFolders);
+                    if (ctlBranchUsers.HasValue(request.PerformerIdentity))
+                        ctlBranchUsers.PopulateValue(request.PerformerIdentity);
 
-                    log.Info("---------------------------------------------");
-                    Console.WriteLine("---------------------------------------------");
-                }
-                catch (Exception ex)
-                {
-                    ErrorFunction(ex, false);
+                    FetchTransactions();
+
+                    ddlCVUStatus.Enabled = Convert.ToBoolean(SafePageController.GetProfileValue("ddlCVUStatus_Enabled"));
+                    ddlTransactionName.Enabled = Convert.ToBoolean(SafePageController.GetProfileValue("ddlTransactionName_Enabled"));
                 }
             }
         }
-
-        private static void ProcessFolder(SPClient sp, Hyland.Unity.Application app, Folder folder, ListItem configListItems, Hyland.Unity.DocumentType documentType, List list, ref int libCount, ref int totalProcessedFolders, ref int totalSuccessFiles, ref int totalFailedFiles, ref int totalSuccessFolders, ref int totalFailedFolders, ref int totalFoldersNoNeedToArchive, ref int TotalNumberofEmptyFolders)
+        catch (Exception ex)
         {
-            bool ErrorOnArchiveItem = false;
-            int archiveAction = 1; // default 1 -> Archive
+            LogManager.LogException(ex);
+        }
+    }
 
-            #region Check if the folder contains documents
+    protected override void LocalizePageContent()
+    {
+        var heading = GetGlobalResource("InternalOperations/TransactionPad.aspx", SafePageController.QueryStrings["TxnName"] + ".DisplayName");
+        if (!string.IsNullOrEmpty(heading))
+            SetHeaderLabel(heading);
+        else
+        {
+            base.LocalizePageContent();
 
-            if (folder.ItemCount > 0)
+        }
+    }
+
+    private void LoadCVUStatus()
+    {
+        ddlCVUStatus.Items.Clear();
+
+        if (HasPrivilege(TransactionNameContants.BRANCH_CVU_REVERTED_TRANSACTIONS) && SafePageController.QueryStrings["TxnName"] == TransactionNameContants.BRANCH_CVU_REVERTED_TRANSACTIONS)
+        {
+            ddlCVUStatus.Items.Add(new ListItem(GetGlobalResource(VpConstants.GlobalResource.CommonEnums, VpConstants.Services.CVUStatusResourceKey + CVUStatusEnum.RevertedToBranch), CVUStatusEnum.RevertedToBranch.ToString()));
+        }
+        else if (HasPrivilege(TransactionNameContants.CVU_BRANCH_TELLER_BATCHES) && SafePageController.QueryStrings["TxnName"] == TransactionNameContants.CVU_BRANCH_TELLER_BATCHES)
+        {
+            ddlCVUStatus.Items.Add(new ListItem(GetGlobalResource(VpConstants.GlobalResource.CommonEnums, VpConstants.Services.CVUStatusResourceKey + CVUStatusEnum.All), CVUStatusEnum.All.ToString()));
+            ddlCVUStatus.Items.Add(new ListItem(GetGlobalResource(VpConstants.GlobalResource.CommonEnums, VpConstants.Services.CVUStatusResourceKey + CVUStatusEnum.ApprovedByChecker), CVUStatusEnum.ApprovedByChecker.ToString()));
+            ddlCVUStatus.Items.Add(new ListItem(GetGlobalResource(VpConstants.GlobalResource.CommonEnums, VpConstants.Services.CVUStatusResourceKey + CVUStatusEnum.RevertedToBranch), CVUStatusEnum.RevertedToBranch.ToString()));
+            ddlCVUStatus.Items.Add(new ListItem(GetGlobalResource(VpConstants.GlobalResource.CommonEnums, VpConstants.Services.CVUStatusResourceKey + CVUStatusEnum.Submitted), CVUStatusEnum.Submitted.ToString()));
+            ddlCVUStatus.Items.Add(new ListItem(GetGlobalResource(VpConstants.GlobalResource.CommonEnums, VpConstants.Services.CVUStatusResourceKey + CVUStatusEnum.Resubmitted), CVUStatusEnum.Resubmitted.ToString()));
+            ddlCVUStatus.Items.Add(new ListItem(GetGlobalResource(VpConstants.GlobalResource.CommonEnums, VpConstants.Services.CVUStatusResourceKey + CVUStatusEnum.Completed), CVUStatusEnum.Completed.ToString()));
+            ddlCVUStatus.Items.Add(new ListItem(GetGlobalResource(VpConstants.GlobalResource.CommonEnums, VpConstants.Services.CVUStatusResourceKey + CVUStatusEnum.ApprovedByBranchCVU), CVUStatusEnum.ApprovedByBranchCVU.ToString()));
+
+
+            ddlCVUStatus.SelectedValue = CVUStatusEnum.Submitted.ToString();
+
+        }
+        else if (HasPrivilege(TransactionNameContants.CHECKER_CVU_REVERTED_TRANSACTIONS) && SafePageController.QueryStrings["TxnName"] == TransactionNameContants.CHECKER_CVU_REVERTED_TRANSACTIONS)
+        {
+            ddlCVUStatus.Items.Add(new ListItem(GetGlobalResource(VpConstants.GlobalResource.CommonEnums, VpConstants.Services.CVUStatusResourceKey + CVUStatusEnum.RevertedToChecker), CVUStatusEnum.RevertedToChecker.ToString()));
+        }
+        else if (HasPrivilege(TransactionNameContants.CVU_AUTHORIZE_BRANCH_TELLER_BATCHES) && SafePageController.QueryStrings["TxnName"] == TransactionNameContants.CVU_AUTHORIZE_BRANCH_TELLER_BATCHES)
+        {
+            ddlCVUStatus.Items.Add(new ListItem(GetGlobalResource(VpConstants.GlobalResource.CommonEnums, VpConstants.Services.CVUStatusResourceKey + CVUStatusEnum.All), CVUStatusEnum.All.ToString()));
+            ddlCVUStatus.Items.Add(new ListItem(GetGlobalResource(VpConstants.GlobalResource.CommonEnums, VpConstants.Services.CVUStatusResourceKey + CVUStatusEnum.ApprovedByChecker), CVUStatusEnum.ApprovedByChecker.ToString()));
+            ddlCVUStatus.Items.Add(new ListItem(GetGlobalResource(VpConstants.GlobalResource.CommonEnums, VpConstants.Services.CVUStatusResourceKey + CVUStatusEnum.RevertedToBranch), CVUStatusEnum.RevertedToBranch.ToString()));
+            ddlCVUStatus.Items.Add(new ListItem(GetGlobalResource(VpConstants.GlobalResource.CommonEnums, VpConstants.Services.CVUStatusResourceKey + CVUStatusEnum.Submitted), CVUStatusEnum.Submitted.ToString()));
+            ddlCVUStatus.Items.Add(new ListItem(GetGlobalResource(VpConstants.GlobalResource.CommonEnums, VpConstants.Services.CVUStatusResourceKey + CVUStatusEnum.Resubmitted), CVUStatusEnum.Resubmitted.ToString()));
+            ddlCVUStatus.Items.Add(new ListItem(GetGlobalResource(VpConstants.GlobalResource.CommonEnums, VpConstants.Services.CVUStatusResourceKey + CVUStatusEnum.Completed), CVUStatusEnum.Completed.ToString()));
+            ddlCVUStatus.Items.Add(new ListItem(GetGlobalResource(VpConstants.GlobalResource.CommonEnums, VpConstants.Services.CVUStatusResourceKey + CVUStatusEnum.ApprovedByBranchCVU), CVUStatusEnum.ApprovedByBranchCVU.ToString()));
+
+            ddlCVUStatus.SelectedValue = CVUStatusEnum.ApprovedByChecker.ToString();
+        }
+    }
+
+    private void LoadTransactionNames()
+    {
+        ddlTransactionName.Items.Clear();
+
+        var transactionNames = new[] { TransactionNameContants.CASH_DEPOSIT
+            ,TransactionNameContants.CASH_CENTER_CASH_DEPOSIT
+            , TransactionNameContants.CASH_WITHDRAWAL
+            , TransactionNameContants.DENOMINATION_EXCHANGE
+            , TransactionNameContants.CHEQUE_DEPOSIT
+            , TransactionNameContants.CHEQUE_WITHDRAWAL
+            , TransactionNameContants.TRANSFER_WITHIN_OWN_ACCOUNTS
+            , TransactionNameContants.TRANSFER_TO_3RD_PARTY_IN_SAME_BANK
+            , TransactionNameContants.OFFICIAL_CHEQUE_DEPOSIT
+            , TransactionNameContants.ISSUE_OFFICIAL_CHEQUE
+            , TransactionNameContants.OFFICIAL_CHEQUE_WITHDRAWAL
+            , TransactionNameContants.PERFORM_REVERSAL_OPERATION
+
+            , TransactionNameContants.DOMESTIC_TRANSFER
+            , TransactionNameContants.CREATE_SARIE_TRANSFER
+            , TransactionNameContants.INTERNATIONAL_TRANSFER
+            , TransactionNameContants.CREATE_SWIFT_TRANSFER
+            , TransactionNameContants.LOCAL_CHEQUE_CLEARING
+            , TransactionNameContants.INTERNATIONAL_CHEQUE_COLLECTION
+
+            , TransactionNameContants.CAPITALMARKETTRANSFER_TRANSACTION
+            , TransactionNameContants.IPO_SUBSCRIPTION
+            , TransactionNameContants.DISHONORED_CHEQUE
+            , TransactionNameContants.CURRENCY_EXCHANGE
+
+            ,TransactionNameContants.BILL_PAYMENT
+            ,TransactionNameContants.CREATE_BILL_PAYMENT
+            ,TransactionNameContants.BILL_PAYMENT_BY_CASH
+            ,TransactionNameContants.PREPAID_BILL_PAYMENT
+            ,TransactionNameContants.PREPAID_BILL_PAYMENT_BY_CASH
+            ,TransactionNameContants.MOI_BILL_PAYMENT_BY_ACCOUNT
+            ,TransactionNameContants.CREATE_MOI_PAYMENT
+            ,TransactionNameContants.MOI_BILL_PAYMENT_BY_CASH
+            ,TransactionNameContants.RECONCILE_PAYMENT
+
+            ,TransactionNameContants.REFUND_PAYOUT
+            ,TransactionNameContants.PAYMENT_REVERSAL
+            ,TransactionNameContants.REFUND_REQUEST
+
+            ,TransactionNameContants.ITM_CASH_DEPOSIT
+            ,TransactionNameContants.ITM_CASH_WITHDRAWAL
+            ,TransactionNameContants.ITM_CHEQUE_DEPOSIT
+            ,TransactionNameContants.ITM_CHEQUE_WITHDRAWAL
+            ,TransactionNameContants.ITM_OFFICIAL_CHEQUE_WITHDRAWAL
+            ,TransactionNameContants.ITM_TRANSFER_TO_3RD_PARTY_IN_SAME_BANK
+            ,TransactionNameContants.ITM_MOI_BILL_PAYMENT_BY_ACCOUNT
+            ,TransactionNameContants.ITM_PREPAID_BILL_PAYMENT
+            ,TransactionNameContants.ITM_BILL_PAYMENT
+            ,TransactionNameContants.POST_MANUAL_CHARGES_TRANSACTION
+            ,TransactionNameContants.ACCOUNTHOLD_OPERATION
+            ,TransactionNameContants.GOVERNMENT_REVENUE_TRANSFER
+        };
+
+        ddlTransactionName.Items.Add(new ListItem(GetGlobalResource(VPResourceConstants.ICommon.ALL), string.Empty));
+
+        foreach (var name in transactionNames)
+        {
+            ddlTransactionName.Items.Add(new ListItem(GetGlobalResource(string.Format("{0}.TxnDisplayName", name)), name));
+        }
+    }
+
+    protected void btnDisplay_Click(object sender, EventArgs e)
+    {
+        FetchTransactions();
+    }
+
+    private void FetchTransactions()
+    {
+        var maxRecordCount = 250;   //UI default value
+        Int32.TryParse(VpConfigurationParameters.GetGenericParameter("InquiryTxnListMaxRecordCount"), out maxRecordCount);
+
+        var txnName = SafePageController.QueryStrings["TxnName"];
+
+        var operationStages = new List<OperationStageEnumeration> { OperationStageEnumeration.Execute, OperationStageEnumeration.CloseCrmCase };
+
+        var cvuStatus = new List<CVUStatusEnum>();
+
+        if (ddlCVUStatus.SelectedValue == CVUStatusEnum.All.ToString())
+        {
+            cvuStatus.Add((CVUStatusEnum.ApprovedByChecker));
+            cvuStatus.Add((CVUStatusEnum.RevertedToBranch));
+            cvuStatus.Add((CVUStatusEnum.Submitted));
+            cvuStatus.Add((CVUStatusEnum.Resubmitted));
+            cvuStatus.Add((CVUStatusEnum.Completed));
+            cvuStatus.Add((CVUStatusEnum.ApprovedByBranchCVU));
+
+        }
+        else
+        {
+            cvuStatus.Add((CVUStatusEnum)Enum.Parse(typeof(CVUStatusEnum), ddlCVUStatus.SelectedValue, true));
+        }
+
+        var request = new VpOnlineTransactionListInquiryRequest
+        {
+            BeginDate = ctlFromDate.ChosenDate,
+            EndDate = ctlToDate.ChosenDate,
+            ChannelID = (int)ChannelTypeEnum.Branch + 1,
+            CIF = SafePageController.Customer.User.CifNo == VpConfigurationParameters.GetGenericParameter("NonCustomerCIF") ? null : SafePageController.Customer.User.CifNo,
+            PerformerIdentity = ctlBranchUsers.SelectedValue,
+            LastTransactionsCount = 0,
+            PriviledgeDepth = GetPrivilegeDepth(txnName),
+            OperationStage = operationStages,
+            CVUStatus = cvuStatus,
+            PerformerBranchCode = ctlBranchLookup.SelectedValue
+        };
+
+        if (!string.IsNullOrEmpty(ddlTransactionName.SelectedValue))
+            request.TransactionName = new List<string>() { ddlTransactionName.SelectedValue };
+
+        var response = ServicesHelper.DoOnlineTransactionListInquiry(request);
+        SafePageController.SetProfileValue("VpOnlineTransactionListInquiryRequest", request);
+        grdTransactionList.DataSource = null;
+        grdUsers.DataSource = null;
+
+        if (response != null && response.IsSuccess && response.UserTransactionList != null)
+        {
+            grdTransactionList.DataSource = response.UserTransactionList.UserTransactions;
+            scTransactions.Visible = true;
+
+            //Display Summary if All is selected
+            if (ddlCVUStatus.SelectedValue == CVUStatusEnum.All.ToString())
             {
-                #region Get the archiveAction from DB
-
-                try
-                {
-                    if (!string.IsNullOrEmpty(Convert.ToString(configListItems.FieldValues["StoredProcedureName"].ToString())))
-                    {
-                        var spName = configListItems["StoredProcedureName"].ToString();
-                        var appNoValue = GetApplicationNum(folder.Name, list.Title);
-                        DBIntegration.DBHelper _CheckArchiveAction = new DBIntegration.DBHelper();
-                        // archiveAction = _CheckArchiveAction.CheckArchiveAction(spName, appNoValue, SQLConnString);
-                    }
-                }
-                catch (Exception)
-                {
-                }
-
-                #endregion
-
-                FileCollection FolderFilelist;
-
-                #region Get Folder File List
-
-                try
-                {
-                    FolderFilelist = sp.getFolderFiles(folder);
-                }
-                catch (Exception ex)
-                {
-                    log.Info("This error occurred while fetching folders from SharePoint list name is  : " + list.Title);
-                    ErrorFunction(ex, false);
-                    return;
-                }
-
-                int folderFilesCount = FolderFilelist.Count;
-
-                #endregion
-
-                try
-                {
-                    #region Fill OnBase KeyWords
-
-                    Dictionary<long, object> frmData = FillParameter(folder.Name, list.Title);
-
-                    if (frmData == null)
-                    {
-                        log.Info("Folder Name: " + folder.Name + " has Error in Name");
-                        Console.WriteLine("Folder Name: " + folder.Name + " has Error in Name");
-                        return;
-                    }
-
-                    #endregion
-
-                    #region IF Action is 1
-
-                    if (archiveAction == 1)
-                    {
-                        DocumentHelper dochelper = new DocumentHelper();
-                        long docHandle = 0;
-
-                        #region folder files loop
-
-                        for (int fileCount = 0; fileCount < folderFilesCount; fileCount++)
-                        {
-                            bool ArchivedItemInOnBase = false;
-
-                            #region check if the file not archived
-
-                            if (!FolderFilelist[fileCount].Name.Contains(".aspx"))
-                            {
-                                string[] fileurltokens = FolderFilelist[fileCount].ServerRelativeUrl.Split('.');
-                                fileurltokens[fileurltokens.Length - 1] = "aspx";
-
-                                #region check if it's already archived but the original file not deleted
-
-                                if (sp.GetFileByUrl(string.Join(".", fileurltokens)) == null)
-                                {
-                                    if (FolderFilelist[fileCount].CheckOutType != CheckOutType.None)
-                                    {
-                                        FolderFilelist[fileCount].CheckIn("Checked in By CRM Archiving Tool", CheckinType.OverwriteCheckIn);
-                                    }
-
-                                    FileInformation fin = sp.DownloadFileInformation(FolderFilelist[fileCount]);
-
-                                    #region Archive to OnBase
-
-                                    try
-                                    {
-                                        // InitateOnBaseApplication();
-
-                                        string[] nametokens = FolderFilelist[fileCount].Name.Split('.');
-                                        string fileFormat = nametokens[nametokens.Length - 1];  // make sure the extension is the last token from split
-
-                                        if (nametokens.Length == 1) // in case no extension 
-                                        {
-                                            fileFormat = "pdf";
-                                        }
-
-                                        Hyland.Unity.PageData pageData = app.Core.Storage.CreatePageData(fin.Stream, fileFormat);
-                                        object entry;
-                                        string SPfileName = FolderFilelist[fileCount].Name;
-
-                                        if (frmData.TryGetValue(Convert.ToInt64(ConfigurationManager.AppSettings["SPFileName"]), out entry))
-                                        {
-                                            if (entry != null)
-                                                frmData.Remove(Convert.ToInt64(ConfigurationManager.AppSettings["SPFileName"]));
-                                        }
-
-                                        if (SPfileName.Length > 250)
-                                            SPfileName = FolderFilelist[fileCount].Name.Substring(0, 249);
-
-                                        frmData.Add(Convert.ToInt64(ConfigurationManager.AppSettings["SPFileName"]), SPfileName);
-                                        docHandle = dochelper.CreateNewDocment(app, documentType.Name, fileFormat, frmData, pageData);
-
-                                        #region Logs
-
-                                        log.Info("App seq #" + libCount + ", " + folder.Name + ",File Name = " + FolderFilelist[fileCount].Name + " OnBase->CreateNewDocment=" + docHandle);
-                                        Console.WriteLine("App seq #" + libCount + ", " + folder.Name + ",File Name = " + FolderFilelist[fileCount].Name + " OnBase->CreateNewDocment = " + docHandle);
-
-                                        #endregion
-
-                                        ArchivedItemInOnBase = true;
-                                        totalSuccessFiles += 1;
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        ErrorOnArchiveItem = true;
-                                        totalFailedFiles += 1;
-                                        log.Error("Error Exception Message" + ex.Message);
-
-                                        if (ex.StackTrace != null)
-                                            log.Error("Error Exception.StackTrace  = " + ex.StackTrace);
-
-                                        continue;
-                                    }
-
-                                    #endregion
-
-                                    #region Replace the original file
-
-                                    if (docHandle != 0 && ArchivedItemInOnBase == true)
-                                    {
-                                        #region Create new ASPX file
-
-                                        string Url = FolderFilelist[fileCount].Name.Split('.')[0] + ".aspx";
-                                        string Description = FolderFilelist[fileCount].Name;
-                                        Microsoft.SharePoint.Client.File file = SPArchive(sp, docHandle.ToString(), Url, folder, Description);
-
-                                        log.Info("App seq #" + libCount + ", " + folder.Name + ",File Name = " + FolderFilelist[fileCount].Name + " onBase link added");
-
-                                        #endregion
-
-                                        #region Delete Original File
-
-                                        try
-                                        {
-                                            if (FolderFilelist[fileCount].CheckOutType == CheckOutType.None)
-                                            {
-                                                FolderFilelist[fileCount].CheckOut();
-                                            }
-
-                                            SPClient.DeleteFile(sp, FolderFilelist[fileCount]);
-                                        }
-                                        catch (Exception ex)
-                                        {
-                                            ErrorFunction(ex, false);
-                                            app.Core.Storage.PurgeDocument(app.Core.GetDocumentByID(docHandle));
-
-                                            if (file.CheckOutType == CheckOutType.None)
-                                            {
-                                                file.CheckOut();
-                                            }
-
-                                            SPClient.DeleteFile(sp, file);
-                                            log.Info("Created Document Was Deleted from OnBase and SharePoint");
-                                        }
-
-                                        #endregion
-
-                                        string fileUrl = FolderFilelist[fileCount].ServerRelativeUrl.Split('.')[0];
-                                        SPClient.UpdateItemArchived(sp, folder, fileUrl, list.Title);
-
-                                        log.Info("App seq #" + libCount + ", " + folder.Name + ",File Name = " + FolderFilelist[fileCount].Name + " is Archived");
-                                        Console.WriteLine("App seq #" + libCount + ", " + folder.Name + ",File Name = " + FolderFilelist[fileCount].Name + " is Archived");
-
-                                        ArchivedItemInOnBase = false;
-                                    }
-                                    else
-                                    {
-                                        log.Info("App seq #" + libCount + ", " + folder.Name + ",File Name = " + FolderFilelist[fileCount].Name + " for number [" + fileCount + "] is FAILED");
-                                        Console.WriteLine("App seq #" + libCount + ", " + folder.Name + ",File Name = " + FolderFilelist[fileCount].Name + " for number [" + fileCount + "] is FAILED");
-                                        ErrorOnArchiveItem = true;
-                                    }
-
-                                    #endregion
-                                }
-                                else
-                                {
-                                    try
-                                    {
-                                        if (FolderFilelist[fileCount].CheckOutType == CheckOutType.None)
-                                        {
-                                            FolderFilelist[fileCount].CheckOut();
-                                        }
-
-                                        SPClient.DeleteFile(sp, FolderFilelist[fileCount]);
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        log.Error("Error on Delete file Exception Message  = " + ex.Message);
-                                    }
-                                }
-
-                                #endregion
-                            }
-                            else
-                            {
-                                log.Info("App seq #" + libCount + ", " + folder.Name + ",File Name = " + FolderFilelist[fileCount].Name + " for number [" + fileCount + "] is already archived");
-                                Console.WriteLine("App seq #" + libCount + ", " + folder.Name + ",File Name = " + FolderFilelist[fileCount].Name + " for number [" + fileCount + "] is already archived");
-                                // ErrorOnArchiveItem = true;
-                            }
-
-                            #endregion
-                        }
-
-                        #endregion
-
-                        #region if all files archived update status in CRM
-
-                        if (ErrorOnArchiveItem == false && folder.ItemCount > 0)
-                        {
-                            try
-                            {
-                                bool updateInCRM = Convert.ToBoolean(configListItems["UpdateStausInCRM"].ToString());
-
-                                if (updateInCRM == true
-                                    && !string.IsNullOrEmpty(configListItems["LibSchemaName"].ToString())
-                                    && !string.IsNullOrEmpty(folder.Name))
-                                {
-                                    var libschemname = configListItems["LibSchemaName"].ToString();
-                                    var applicationNo = GetApplicationNum(folder.Name, list.Title);
-                                    bool sStaus = client.UpdateApplicationArchivalStatus(libschemname, "vrp_applicationno", applicationNo, "1");
-
-                                    log.Info("Call service SISL  = " + list.Title + " vrp_applicationno " + applicationNo + " 1 " + " and return value is " + sStaus);
-                                    Console.WriteLine("Call service SISL  = " + list.Title + " vrp_applicationno " + applicationNo + " 1 " + " and return value is " + sStaus);
-
-                                    log.Info("update status in CRM done");
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                ErrorFunction(ex, true);
-                            }
-
-                            rootItem["Archived"] = Convert.ToDateTime(DateTime.Now);
-                            rootItem.Update();
-                            sp.ExecuteQuery();
-
-                            totalSuccessFolders += 1;
-                            log.Info("update status in SP done");
-                            log.Info("**************");
-                            Console.WriteLine("**************");
-                        }
-                        else
-                        {
-                            totalFailedFolders += 1;
-                        }
-
-                        #endregion
-                    }
-                    else if (archiveAction == 2)
-                    {
-                        totalFoldersNoNeedToArchive += 1;
-                        SPClient.MarkItemArchived(sp, rootItem, 2);
-
-                        log.Info("App seq #" + libCount + ", " + folder.Name + "ArcihveAction: " + archiveAction + " ARCHIVED as 1/1/2000");
-                    }
-                    else
-                    {
-                        log.Info("App seq #" + libCount + ", " + folder.Name + "ArcihveAction: " + archiveAction);
-                    }
-
-                    #endregion
-                }
-                catch (Exception ex)
-                {
-                    ErrorFunction(ex, false);
-                    return;
-                }
+                grdUsers.DataSource = GetTransactionsUserSummary(response.UserTransactionList.UserTransactions);
+                pnlUserSummary.Visible = true;
             }
             else
             {
-                TotalNumberofEmptyFolders += 1;
-                SPClient.MarkItemArchived(sp, rootItem, 2);
-
-                log.Info("App seq #" + libCount + ", " + folder.Name + "ArcihveAction:" + archiveAction + " ARCHIVED as 1/1/2000");
-                log.Info("App seq #" + libCount + ": No Files in this folder...");
+                pnlUserSummary.Visible = false;
             }
+        }
+        else
+        {
+            scTransactions.Visible = false;
 
-            #endregion
+            if (ResponseHasErrorMessage(response))
+            {
+                AlertModal(GetErrorMessageFromResponse(response));
+            }
         }
 
-        #endregion
+
+        grdTransactionList.DataBind();
+        grdUsers.DataBind();
     }
+
+    private object GetTransactionsUserSummary(UserTransaction[] transactions)
+    {
+        var dt = new DataTable();
+        dt.Columns.Add("Type");
+        dt.Columns.Add("PerformerBranchCode");
+        dt.Columns.Add("BranchTotal");
+        dt.Columns.Add("Submitted");
+        dt.Columns.Add("Resubmitted");
+        dt.Columns.Add("ApprovedByChecker");
+        dt.Columns.Add("RevertedToBranch");
+        dt.Columns.Add("Completed");
+
+        var branches = transactions.Select(t => t.PerformerBranchCode.ToUpper()).Distinct().ToList();
+
+        foreach (var branch in branches)
+        {
+            var branchTotal = transactions.Count(t => t.PerformerBranchCode.ToUpper() == branch);
+            var submittedTotal = transactions.Where(t => t.CVUStatus == CVUStatusEnum.Submitted).Where(t => t.PerformerBranchCode.ToUpper() == branch).Count();
+            var resubmittedTotal = transactions.Where(t => t.CVUStatus == CVUStatusEnum.Resubmitted).Where(t => t.PerformerBranchCode.ToUpper() == branch).Count();
+            var approvedByCheckerTotal = transactions.Where(t => t.CVUStatus == CVUStatusEnum.ApprovedByChecker).Where(t => t.PerformerBranchCode.ToUpper() == branch).Count();
+            var revertedToBranchTotal = transactions.Where(t => t.CVUStatus == CVUStatusEnum.RevertedToBranch).Where(t => t.PerformerBranchCode.ToUpper() == branch).Count();
+            var completedTotal = transactions.Where(t => t.CVUStatus == CVUStatusEnum.Completed).Where(t => t.PerformerBranchCode.ToUpper() == branch).Count();
+
+            var branchName = ServicesHelper.GetBranchNameByCode(branch, UserLanguage);
+
+            dt.Rows.Add("Branch", branchName, branchTotal, submittedTotal, resubmittedTotal, approvedByCheckerTotal, revertedToBranchTotal, completedTotal);
+        }
+
+        //Removed option to create batch on branch level.
+        //if (tellers.Count > 1)
+        //    dt.Rows.Add("B", ServicesHelper.GetBranchNameByCode(SafePageController.Performer.User.BranchCode) , transactions.Count());
+
+        return dt;
+    }
+
+    private void ResetBranchUsers()
+    {
+        var dt = new DataTable();
+        dt.Columns.Add("UserName");
+        dt.PrimaryKey = new[] { dt.Columns["UserName"] };
+
+        ctlBranchUsers.DataTable = dt;
+
+    }
+
+    protected void grdTransactionList_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        try
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                var userTransaction = ((UserTransaction)e.Row.DataItem);
+
+                var litBranch = e.Row.FindControl("litBranch") as Literal;
+                if (litBranch != null)
+                {
+                    litBranch.Text = ServicesHelper.GetBranchNameByCode(userTransaction.PerformerBranchCode, UserLanguage);
+                }
+
+                var litTransactionDate = e.Row.FindControl("litTransactionDate") as Literal;
+                if (litTransactionDate != null)
+                {
+                    litTransactionDate.Text = userTransaction.TransactionDate.ToString(VpConstants.Dates.DateTimeFormat, ci);
+                }
+
+                var litTransactionDescription = e.Row.FindControl("litTransactionDescription") as Literal;
+                if (litTransactionDescription != null)
+                {
+                    var txnName = userTransaction.TransactionName;
+                    litTransactionDescription.Text = GetGlobalResource(string.Format("{0}.TxnDisplayName", txnName));
+                    if (txnName == TransactionNameContants.PERFORM_REVERSAL_OPERATION && !string.IsNullOrEmpty(userTransaction.OriginalTransactionName))
+                    {
+                        var originalTxnName = userTransaction.OriginalTransactionName;
+                        litTransactionDescription.Text = string.Format("{0} - {1}", GetGlobalResource(string.Format("{0}.TxnDisplayName", txnName)), GetGlobalResource(string.Format("{0}.TxnDisplayName", originalTxnName)));
+                    }
+                }
+
+                var litCVUStatus = e.Row.FindControl("litCVUStatus") as Literal;
+                if (litCVUStatus != null)
+                {
+                    litCVUStatus.Text = GetGlobalResource(VpConstants.GlobalResource.CommonEnums, VpConstants.Services.CVUStatusResourceKey + userTransaction.CVUStatus);
+                }
+
+                var litCustomerHasOralAgreement = e.Row.FindControl("litCustomerHasOralAgreement") as Literal;
+                if (litCustomerHasOralAgreement != null)
+                {
+                    litCustomerHasOralAgreement.Text = Convert.ToBoolean(userTransaction.CustomerHasOralAgreement) ? GetGlobalResource("Yes.Text") : GetGlobalResource("No.Text");
+                }
+
+                var litOriginalDocReceived = e.Row.FindControl("litOriginalDocReceived") as Literal;
+                if (litOriginalDocReceived != null)
+                {
+                    if (userTransaction.IsOriginalDocumentReceived != null)
+                    {
+                        if (userTransaction.IsOriginalDocumentReceived == true)
+                            litOriginalDocReceived.Text = GetGlobalResource("Yes.Text");
+                        else
+                            litOriginalDocReceived.Text = GetGlobalResource("No.Text") + " (" + (DateTime.Now - userTransaction.TransactionDate).Days + " " + GetGlobalResource("Days.Text") + ")";
+                    }
+                }
+
+                var litRiskStatus = e.Row.FindControl("litRiskStatus") as Literal;
+                if (litRiskStatus != null)
+                {
+                    if (userTransaction.RiskStatus != RiskStatusEnum.All && userTransaction.RiskStatus != RiskStatusEnum.Unassigned)
+                        litRiskStatus.Text = GetGlobalResource(VpConstants.GlobalResource.CommonEnums, VpConstants.Services.RiskStatusResourceKey + userTransaction.RiskStatus);
+                }
+
+                var btnDetails = e.Row.FindControl("btnDetails") as VBImageButton;
+                if (btnDetails != null)
+                {
+                    if (e.Row.RowIndex < 9)
+                        btnDetails.AccessKey = (e.Row.RowIndex + 1).ToString();
+                    btnDetails.Visible = userTransaction.Channel == ((int)ChannelTypeEnum.Branch + 1);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            LogManager.LogException(ex);
+        }
+    }
+
+    protected void grdTransactionList_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        try
+        {
+            if (e.CommandName.ToLower() == "details")
+            {
+                SafePageController.SetProfileValue("ddlCVUStatus_Enabled", ddlCVUStatus.Enabled);
+                SafePageController.SetProfileValue("ddlTransactionName_Enabled", ddlTransactionName.Enabled);
+                var referenceNumber = e.CommandArgument.ToString();
+
+                if (!string.IsNullOrEmpty(referenceNumber))
+                {
+                    SafePageController.SetStateValue(VpPageControllerConstants.Transaction.TransactionReferenceNumber, referenceNumber);
+
+                    SafePageController.PageControllerRedirect("CVUTransactionDetails.aspx");
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            LogManager.LogException(ex);
+            SetErrorDisplayDefault();
+        }
+    }
+
+    protected void ctlBranchLookup_ItemSelected(object sender, LookupControlEventArgs e)
+    {
+        if (e != null && e.table != null && e.table.Rows.Count > 0)
+        {
+            var code = e.table.Rows[0][VpPageControllerConstants.Branch.BranchCode.ToString()] as string;
+
+            ctlBranchUsers.DataTable = ServicesHelper.DoUserBranchHierarchyInquiry(code, GetPrivilegeDepth(SafePageController.QueryStrings["TxnName"]));
+        }
+
+    }
+
+    protected void ctlBranchLookup_OnSelectionCleared(object sender)
+    {
+        var txnName = SafePageController.QueryStrings["TxnName"];
+
+        var branches = ServicesHelper.DoUserBranchHierarchyInquiry(GetPrivilegeDepth(txnName));
+        ctlBranchLookup.DataTable = branches;
+
+        ResetBranchUsers();
+
+    }
+
+
 }
