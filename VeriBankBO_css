@@ -1,0 +1,1450 @@
+body
+{
+    background-image: url(/BackOffice.UI/Content/EN/images/Onyx/bg-onyx.png);
+    background-repeat: no-repeat;
+    background-position: center -200px;
+    background-color: #e8e8e8;
+    background-attachment: scroll;
+    margin: 0px;
+    font-family: Segoe UI, Tahoma, Arial;
+    font-size: 12px;
+    color: #56595c;
+}
+.main {margin: 0px !important;}
+.FullGrid
+{
+    border: solid 1px #d9d9d9;
+    padding-bottom: 5px;
+    border-collapse: separate !important;
+}
+
+.foot_back
+{
+    background-image: url(/BackOffice.UI/Content/EN/images/new/foot_bg.jpg);
+    background-position: top;
+    background-repeat: repeat-x;
+}
+.logo_back
+{
+    background-image: url(/BackOffice.UI/Content/images/bos.gif);
+    background-position: right top;
+    background-repeat: no-repeat;
+}
+div#header_popup
+{
+    text-align: justify;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.common_gold_bold_popup
+{
+    font-family: "Tahoma";
+    font-weight: bold;
+    font-size: 8pt;
+    color: #a8922b;
+    letter-spacing: 0px;
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 97%;
+}
+div#footer-copyright-popup
+{
+    padding-top: 5px;
+}
+div#footer-popup
+{
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+div#content-popup
+{
+    padding-left: 10px;
+    padding-right: 10px;
+}
+/* Header */
+div#header
+{
+    width: 960px;
+    height: 130px;
+    text-align: left;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+div#header-back
+{
+    background-image: url(/BackOffice.UI/Content/Images/Header/header_bg.gif);
+    background-repeat: repeat-x;
+    position: absolute;
+    width: 960px;
+    height: 96px;
+}
+
+div#header-mid
+{
+    position: absolute;
+    margin-top: 100px;
+    width: 960px;
+    height: 40px;
+}
+div#header-left
+{
+    background-image: url(/BackOffice.UI/Content/Images/Header/header_left.gif);
+    position: absolute;
+    margin-top: 86px;
+    width: 17px;
+    height: 45px;
+}
+
+div#header-right
+{
+    background-image: url(/BackOffice.UI/Content/Images/Header/header_right.gif);
+    position: absolute;
+    width: 18px;
+    height: 45px;
+    margin-top: 85px;
+    margin-left: 942px;
+}
+
+div#header-logo
+{
+    background-image: url(/BackOffice.UI/Content/Images/Header/header_logo.gif);
+    background-repeat: no-repeat;
+    position: absolute;
+    width: 75px;
+    height: 85px;
+    margin-top: 5px;
+    margin-left: 50px;
+}
+
+/* Footer */
+div#footer
+{
+    /*background-image: url(../../Content/Images/Footer/footer_bg.jpg);*/
+    height: 100px;
+    width: 960px;
+    text-align: justify;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+div#footer-copyright
+{
+    text-align: left;
+    padding-top: 2px;
+    /*width: 480px;*/
+    float: left;
+    width: 100%;
+    border-bottom: 0px dotted #29282b;
+    height: 1px;
+    text-align: center;
+    vertical-align: bottom;
+}
+
+div#footer-menu
+{
+    text-align: right;
+    padding-top: 80px;
+    width: 480px;
+    float: left;
+}
+/* Footer */
+
+/* Transaction Title */
+div#title
+{
+    width: 500px;
+    height: 50px;
+    font-family: Tahoma, Verdana;
+    font-size: 22px;
+    letter-spacing: 0px;
+    color: #107aa8;
+    padding: 10px 0px 0px 0px;
+}
+
+/* Transaction Title */
+
+div#content
+{
+    width: 940px;
+    text-align: left;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.tit
+{
+    padding-left: 5px;
+    font-family: Tahoma, Verdana;
+    font-size: 10pt;
+    font-weight: bold;
+    color: #FFFFFF;
+    letter-spacing: 0px;
+}
+
+.common_blue_bold
+{
+    font-family: Tahoma, Verdana;
+    font-size: 10pt;
+    font-weight: bold;
+    color: #107aa8;
+    letter-spacing: 0px;
+}
+
+.common_blue
+{
+    font-family: Tahoma, Verdana;
+    font-size: 10pt;
+    color: #107aa8;
+    letter-spacing: 0px;
+}
+
+.common_blue_withborder
+{
+    font-family: Tahoma, Verdana;
+    font-size: 10pt;
+    color: #107aa8;
+    letter-spacing: 0px;
+    background-color: #F7FCFF;
+}
+
+.common_red
+{
+    font-family: Tahoma, Verdana;
+    font-size: 10pt;
+    color: #d11515;
+    letter-spacing: 0px;
+}
+
+.border_id
+{
+    border-top: #d4d4d4 1px dotted;
+    border-bottom: #d4d4d4 1px dotted;
+}
+
+.common_gold_bold
+{
+    font-family: Tahoma, Verdana;
+    font-weight: bold;
+    font-size: 8pt;
+    color: #a8922b;
+    letter-spacing: 0px;
+}
+
+.border_visit
+{
+    border: #e6d599 1px solid;
+    font-family: Tahoma, Verdana;
+    font-size: 8pt;
+    color: #937e1a;
+    letter-spacing: 0px;
+}
+
+.visit_bg1
+{
+    padding-left: 5px;
+    background-color: #fefcf5;
+}
+
+.visit_bg2
+{
+    padding-left: 5px;
+    background-color: #faf5e3;
+}
+
+.Flow
+{
+    margin-bottom: 30px;
+}
+
+.Grid
+{
+    border: 1px solid #9495A2;
+    background-color: #FFFFFF;
+}
+.Grid tr:last-child td
+{
+    border-bottom: 1px solid #9495A2 !important;
+}
+
+.Navigation
+{
+    text-align: right;
+    margin-bottom: 30px;
+}
+
+.Label
+{
+    margin-bottom: 15px;
+}
+
+/* Tables and Grids */
+.tbl
+{
+    width: 926px;
+    text-align: justify;
+    margin-top: 50px;
+    margin-right: auto;
+}
+
+.table-title-bg
+{
+    background-image: url(/BackOffice.UI/Content/Images/Table/tb_header_head.gif);
+    background-repeat: no-repeat;
+    height: 30px;
+}
+
+.table-title-txt
+{
+    font-family: Tahoma, Verdana;
+    font-size: 10pt;
+    font-weight: normal;
+    color: #545455;
+    padding-top: 8px;
+    padding-left: 10px;
+}
+
+.table-header
+{
+    background-repeat: repeat;
+    font-family: Segoe UI, Tahoma, Arial;
+    font-size: 11px;
+    font-weight: normal;
+    color: #000000;
+    text-align: left;
+    padding-left: 10px;
+    /*background-image: url(../../Content/Images/GridColumnGradient_white.png);*/
+}
+.table-headerBatch
+{
+    font-family: Tahoma, Verdana;
+    font-size: 8pt;
+    font-weight: bold;
+    color: #a08848;
+    text-align: center;
+    background: #ececec;
+}
+.table-sec1
+{
+    /*background-color: #e7eef4;     border-bottom: 1px solid white;*/
+    height: 16px;
+    font-family: Segoe UI, Tahoma, Arial;
+    font-size: 11px;
+    font-weight: normal;
+    color: #000;
+    text-align: center;
+}
+
+.table-sec2
+{
+    /*background-color: #f4f8fb;     border-bottom: 0px solid white;*/
+    height: 16px;
+    font-family: Segoe UI, Tahoma, Arial;
+    font-size: 11px;
+    font-weight: normal;
+    color: #000;
+    text-align: center;
+    vertical-align: top;
+}
+
+.table-footer
+{
+    /* background-image: url(../../Content/Images/Table/tb_footer_bg.gif); */
+    background-repeat: repeat;
+    height: 38px;
+    text-align: right;
+    padding: 5px 0px 0px 0px;
+}
+
+.row_font
+{
+    font-size: 10pt;
+    padding: 0px 2px 0px 2px;
+}
+/* Tables and Grids */
+
+.table-headerForRadGrid
+{
+    background-image: url(../../Content/Images/Table/tb_header_bg.gif);
+    background-repeat: repeat;
+    height: 27px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 8pt;
+    font-weight: normal;
+    color: #a08848;
+    text-align: center;
+    vertical-align: text-top;
+}
+/**********************************************************************
+ * Pagination Styles                                                  *
+ **********************************************************************/
+TD.button_bar
+{
+    background: #ffffff url(/BackOffice.UI/Content/Images/function_bg.gif) repeat-x top left;
+    padding-top: 0px;
+    padding-right: 0px;
+    padding-left: 0px;
+    padding-bottom: 0px;
+    width: 100%;
+}
+
+.button_bar_cell
+{
+    padding-top: 3px;
+}
+
+.pagination_area
+{
+    background-image: url(../../Content/Images/paginationRowT.gif);
+    color: #003366;
+    padding-right: 20px;
+    padding-left: 20px;
+    text-align: left;
+    white-space: nowrap;
+    vertical-align: bottom;
+    width: 100%;
+    border-top: 1px #eeeeee solid;
+    border-left: 1px #eeeeee solid;
+    border-right: 1px #eeeeee solid;
+    border-bottom: 1px #eeeeee solid;
+}
+
+.pagination_label
+{
+    color: #003366;
+    font-weight: normal;
+    vertical-align: middle;
+    white-space: nowrap;
+    padding: 2px;
+}
+
+.pagination_value
+{
+    color: #003366;
+    font-weight: bold;
+    vertical-align: middle;
+    white-space: nowrap;
+    padding: 2px;
+    padding-right: 5px;
+    padding-left: 5px;
+}
+
+.Pagination_Input
+{
+    font-family: Verdana, Geneva, ms sans serif;
+    font-size: 10px;
+    background-color: #ffffff;
+    border-top: 1px #555555 solid;
+    border-left: 1px #555555 solid;
+    border-right: 1px #eeeeee solid;
+    border-bottom: 1px #eeeeee solid;
+}
+
+.pagination_row
+{
+    font-weight: bold;
+    vertical-align: middle;
+}
+
+.paginationRowEdgeL
+{
+    background-image: url(/BackOffice.UI/Content/Images/paginationRowEdgeL.gif);
+    background-repeat: no-repeat;
+    width: 20px;
+    height: 40px;
+}
+
+.paginationRowEdgeR
+{
+    background-image: url(/BackOffice.UI/Content/Images/paginationRowEdgeR.gif);
+    background-repeat: no-repeat;
+    width: 20px;
+    height: 40px;
+}
+
+.paginationButtonFirst
+{
+    background-image: url(/BackOffice.UI/Content/Images/arrow_beg.gif);
+    background-repeat: no-repeat;
+    width: 33px;
+    height: 22px;
+}
+
+.paginationButtonPrevious
+{
+    background-image: url(/BackOffice.UI/Content/Images/arrow_left.gif);
+    background-repeat: no-repeat;
+    width: 33px;
+    height: 22px;
+}
+
+.paginationButtonNext
+{
+    background-image: url(/BackOffice.UI/Content/Images/arrow_right.gif);
+    background-repeat: no-repeat;
+    width: 33px;
+    height: 22px;
+}
+
+.paginationButtonLast
+{
+    background-image: url(/BackOffice.UI/Content/Images/arrow_end.gif);
+    background-repeat: no-repeat;
+    width: 33px;
+    height: 22px;
+}
+
+
+
+
+/**********************************************************************
+ * Button Styles                                                      *
+ **********************************************************************/
+a.button_link
+{
+    color: #eeeeee;
+    font-weight: bold;
+    text-decoration: none;
+    text-align: center;
+    padding-right: 2px;
+    padding-left: 2px;
+    width: 100%;
+    font-size: 11px;
+    font-family: Segoe UI, Tahoma, Arial;
+}
+
+a.button_link:hover
+{
+    color: #ffffff;
+}
+
+.button-TL-white
+{
+    background-image: url(/BackOffice.UI/Content/Images/buttonTL.gif);
+    background-repeat: no-repeat;
+    background-position: top right;
+    width: 17px;
+    height: 4px;
+}
+.button-T-white
+{
+    background-image: url(/BackOffice.UI/Content/Images/buttonT.gif);
+    height: 4px;
+}
+.button-TR-white
+{
+    background-image: url(/BackOffice.UI/Content/Images/buttonTR.gif);
+    background-repeat: no-repeat;
+    background-position: top left;
+    width: 9px;
+    height: 4px;
+}
+.button-L-white
+{
+    background-image: url(/BackOffice.UI/Content/Images/buttonL.gif);
+    background-repeat: no-repeat;
+    background-position: center right;
+    width: 17px;
+    height: 12px;
+}
+.button-L-R-white
+{
+    background-image: url(/BackOffice.UI/Content/Images/buttonLR.gif);
+    background-repeat: no-repeat;
+    background-position: center right;
+    width: 17px;
+    height: 12px;
+}
+
+
+.button-white
+{
+    background-image: url(/BackOffice.UI/Content/Images/buttonC.gif);
+    height: 9px;
+    white-space: nowrap;
+}
+
+.button-bigger-white
+{
+    background-image: url(/BackOffice.UI/Content/Images/buttonC.gif);
+    height: 12px;
+    white-space: nowrap;
+}
+.button-R-white
+{
+    background-image: url(/BackOffice.UI/Content/Images/buttonR.gif);
+    background-repeat: no-repeat;
+    background-position: center left;
+    width: 9px;
+    height: 12px;
+}
+.button-BL-white
+{
+    background-image: url(/BackOffice.UI/Content/Images/buttonBL.gif);
+    background-repeat: no-repeat;
+    background-position: bottom right;
+    width: 17px;
+    height: 7px;
+}
+.button-B-white
+{
+    background-image: url(/BackOffice.UI/Content/Images/buttonB.gif);
+    height: 7px;
+}
+.button-BR-white
+{
+    background-image: url(/BackOffice.UI/Content/Images/buttonBR.gif);
+    background-repeat: no-repeat;
+    background-position: bottom left;
+    width: 9px;
+    height: 7px;
+}
+.head_tbl_top_ii
+{
+    border-top: #d9d9d9 0px solid;
+    font-weight: normal;
+    padding: 2px 0px 2px 0px;
+    /*width: 5%;*/
+    vertical-align: top;
+    /*color: #56595c;
+    font-weight: normal;*/
+}
+.head_tbl_top_ii2
+{
+    border-top: #d9d9d9 1px solid;
+    font-weight: normal;
+    background: #ececec;
+    padding: 8px 8px 8px 8px;
+    width: 12.5%; /*width: 300px;*/
+}
+.head_tbl_top_ii4
+{
+    border-top: #d9d9d9 1px solid;
+    font-weight: normal;
+    background: #ececec;
+    padding: 8px 8px 8px 8px;
+    width: 9%; /*width: 300px;*/
+}
+.head_tbl_No_top
+{
+    border-top: none;
+    font-weight: normal;
+    background: #ececec;
+    padding: 8px 8px 8px 8px;
+    width: 25%; /*width: 300px;*/
+}
+.head_tbl_top_ii2_No_BackGround
+{
+    font-weight: normal;
+    padding: 8px 8px 8px 8px;
+    width: 12.5%; /*width: 300px;*/
+}
+.head_tbl_top_No_BackGround
+{
+    font-weight: normal;
+    padding: 8px 8px 8px 8px;
+    width: 15%; /*width: 300px;*/
+}
+.wtdata
+{
+    border-top: #d9d9d9 0px solid;
+    padding: 2px 0px 2px 0px;
+    border-bottom: #d9d9d9 0px solid;
+    border-collapse: collapse;
+    /*width: 85%;*/
+    width: 90%;
+    color: #000;
+    font-weight: bold;
+}
+.wtdata2
+{
+    border-top: #d9d9d9 1px solid;
+    padding: 8px 8px 8px 8px;
+    background: #f9f9f9;
+    border-bottom: #d9d9d9 1px solid;
+    border-collapse: collapse;
+    width: 37.5%;
+}
+.wtdata4
+{
+    border-top: #d9d9d9 1px solid;
+    padding: 8px 8px 8px 8px;
+    background: #f9f9f9;
+    border-bottom: #d9d9d9 1px solid;
+    border-collapse: collapse;
+    width: 18%;
+}
+.wtdata_No_Top
+{
+    border-top: none;
+    padding: 8px 8px 8px 8px;
+    background: #f9f9f9;
+    border-bottom: #d9d9d9 1px solid;
+    border-collapse: collapse;
+    width: 75%;
+}
+.wtdata2_No_BackGround
+{
+    padding: 8px 0px 8px 8px;
+    border-collapse: collapse;
+    width: 37.5%;
+}
+.wtdata_No_BackGround
+{
+    padding: 8px 0px 0px 0px;
+    border-collapse: collapse;
+    width: 85%;
+    text-align: left;
+    direction: rtl;
+}
+.wtdata_No_BackGround_Right
+{
+    padding: 8px 0px 8px 8px;
+    border-collapse: collapse;
+    width: 75%;
+    text-align: right !important;
+    direction: rtl;
+}
+.wtdata_Right
+{
+    border-top: #d9d9d9 1px solid;
+    padding: 8px 8px 8px 8px;
+    background: #f9f9f9;
+    border-bottom: #d9d9d9 1px solid;
+    border-collapse: collapse;
+    width: 75%;
+    text-align: right;
+}
+.ATSwtdata
+{
+    padding-left: 3px;
+    background: #f9f9f9;
+    border-top: #d9d9d9 1px solid;
+    border-bottom: #d9d9d9 1px solid;
+    border-left: #d9d9d9 1px solid;
+    border-right: #d9d9d9 1px solid;
+    border-collapse: collapse;
+    height: 15px;
+}
+
+/*Modal Popup*/
+.modalBackground
+{
+    background-color: gray;
+    filter: alpha(opacity=70);
+    opacity: 0.7;
+}
+
+.modalPopup
+{
+    background-color: #ffffff;
+    border-width: 3px;
+    border-style: solid;
+    border-color: Gray;
+    padding: 3px;
+    width: 400px;
+    height: 320px;
+}
+
+.OTPPopup {width:60%!important; min-height: 170px; background: url(/BackOffice.UI/Content/EN/images/OTPBG.jpg) no-repeat right center; padding:10px;}
+.OTPTable {}
+.OTPTable td { padding:2px 0px;}
+.OTPPopup h3 { color: #0072c6; font-size: 16px; margin: 0 7px 0 1px; font-weight: lighter;}
+.OTPTest div:first-child { margin-left: -1px}
+
+.modalPopupFull
+{
+    background-color: #ffffff;
+    border-width: 3px;
+    border-style: solid;
+    border-color: Gray;
+    padding: 3px;
+}
+
+/* Modal Popup for User Role Management */
+#modalPage
+{
+    display: none;
+    position: absolute;
+    width: expression(document.documentElement.clientWidth +     "px" );
+    height: expression(document.documentElement.clientHeight +     "px" );
+    top: 0px;
+    left: 0px;
+}
+.modalBackground2
+{
+    filter: alpha(opacity=70);
+    opacity: 0.7;
+    background-color: White;
+    position: fixed;
+    z-index: 750;
+    position: absolute;
+    left: expression(ignoreMe = document.documentElement.scrollLeft +     "px" );
+    top: expression(ignoreMe = document.documentElement.scrollTop +     "px" );
+    width: expression(document.documentElement.clientWidth +     "px" );
+    height: expression(document.documentElement.clientHeight +     "px" );
+}
+.modalContainer
+{
+    position: absolute;
+    width: 300px;
+    left: expression(ignoreMe = document.documentElement.clientWidth / 2 +     "px" );
+    top: expression(ignoreMe = document.documentElement.clientHeight / 2 +     "px" );
+    z-index: 1000;
+}
+.modal
+{
+    background-color: white;
+    border-width: 3px;
+    border-style: solid;
+    border-color: White;
+    position: relative;
+    top: -150px;
+    left: -150px;
+    z-index: 1200;
+    width: 300px;
+    height: 250px;
+    padding: 0px;
+}
+.modalTop
+{
+    width: 292px;
+    background-color: #000099;
+    padding: 4px;
+    color: #ffffff;
+    text-align: right;
+}
+.modalTop a, .modalTop a:visited
+{
+    color: #ffffff;
+}
+.modalBody
+{
+    padding: 10px;
+}
+
+
+.Label1
+{
+    padding-left: 30px;
+    padding-top: 8px;
+    height: 30px;
+    vertical-align: bottom;
+    background-repeat: no-repeat;
+    background-image: url(/BackOffice.UI/Content/Images/number1.gif);
+    background-position-x: left;
+}
+.Label2
+{
+    padding-left: 30px;
+    padding-top: 8px;
+    height: 30px;
+    vertical-align: bottom;
+    background-repeat: no-repeat;
+    background-image: url(/BackOffice.UI/Content/Images/number2.gif);
+    background-position-x: left;
+}
+.Label3
+{
+    padding-left: 30px;
+    padding-top: 8px;
+    height: 30px;
+    vertical-align: bottom;
+    background-repeat: no-repeat;
+    background-image: url(/BackOffice.UI/Content/Images/number3.gif);
+    background-position-x: left;
+}
+.Label4
+{
+    padding-left: 30px;
+    padding-top: 8px;
+    height: 30px;
+    vertical-align: bottom;
+    background-repeat: no-repeat;
+    background-image: url(/BackOffice.UI/Content/Images/number4.gif);
+    background-position-x: left;
+}
+.Label5
+{
+    padding-left: 30px;
+    padding-top: 8px;
+    height: 30px;
+    vertical-align: bottom;
+    background-repeat: no-repeat;
+    background-image: url(/BackOffice.UI/Content/Images/number5.gif);
+    background-position-x: left;
+}
+.Label6
+{
+    padding-left: 30px;
+    padding-top: 8px;
+    height: 30px;
+    vertical-align: bottom;
+    background-repeat: no-repeat;
+    background-image: url(/BackOffice.UI/Content/Images/number6.gif);
+    background-position-x: left;
+}
+.navtitle
+{
+    font-weight: bold;
+    font-size: 18px;
+    padding-top: 1px;
+    color: #ffffff;
+}
+.checkPageTitle
+{
+    text-align: left;
+    background-color: #6693CF;
+    font-family: Tahoma;
+    font-size: 14px;
+    font-weight: bold;
+    height: 50px;
+}
+table-CRMheaderBatch
+{
+    height: 27px;
+    font-family: "Tahoma";
+    font-size: 8pt;
+    font-weight: bold;
+    color: #FFFFFF;
+    text-align: center;
+    background: #6693CF;
+}
+
+/*.CommandButton
+{
+    background-color: #b3986f;
+    border: solid 1px #997641 !important;
+    padding: 0px 8px;
+    cursor: pointer;
+    cursor: hand;
+    line-height: 18px;
+    font-size: 11px;
+    color: #fff;
+    text-transform: uppercase;
+    font-family: Segoe UI, Tahoma, Arial;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    
+    -webkit-transition: ease-out 1s;
+    -moz-transition: ease-out 1s;
+    -o-transition: ease-out 1s;
+    transition: ease-out 1s;
+}
+.CommandButton:hover
+{
+    background-color: #997641;
+    border: solid 1px #997641 !important;
+}*/
+
+.AmountTextBox
+{
+    text-align: right !important;
+}
+
+.AmountTextBoxBalance
+{
+    text-align: right !important;
+    width: 70px !important;
+}
+
+fieldset
+{
+    padding: 0 15px 10px 15px;
+}
+.summary-container fieldset
+{
+    padding-bottom: 5px;
+    margin-top: 4px;
+}
+legend.no-expand-all
+{
+    padding: 2px 15px 4px 10px;
+    margin: 0 0 0 -12px;
+}
+legend
+{
+    color: #333333;
+    padding: 0px 15px 0px 10px;
+    margin: 4px 0 8px -12px;
+    _margin-top: 0px;
+    border-top: 1px solid #EDEDED;
+    border-left: 1px solid #EDEDED;
+    border-right: 1px solid #969696;
+    border-bottom: 1px solid #969696;
+    background: rgb(236, 236, 236);
+    font-weight: normal !important;
+    font-size: 1em;
+}
+.backButton
+{
+    float: left;
+}
+.pageButtons
+{
+    float: right;
+}
+.copyright
+{
+    text-align: center;
+    vertical-align: bottom;
+}
+
+a, a:link, a:visited
+{
+    color: #6293d8;
+    text-decoration: underline;
+}
+a:hover
+{
+    text-decoration: none !important;
+}
+
+
+/* -- CRM GRID VIEW TABLE -- */
+.Grid
+{
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #a5acb5;
+    font-family: "Segoe UI" , Arial, "Lucida Sans" , sans-serif, Tahoma;
+    font-size: 12px;
+    -webkit-transition: all 2s ease-in-out 1ms;
+    -moz-transition: all 2s ease-in-out 1ms;
+    -ms-transition: all 2s ease-in-out 1ms;
+    -o-transition: all 2s ease-in-out 1ms;
+    transition: all 2s ease-in-out 1ms;
+}
+/*.Grid:hover {
+		border-color: #F00;
+	}*/
+.Grid tr
+{
+    border-bottom: 1px solid #dbdee1 !important;
+}
+.Grid td
+{
+    border-bottom: 1px solid #dbdee1 !important;
+    padding: 2px 4px 2px 10px !important;
+    color: #000;
+}
+.Grid td:first-child
+{
+    border-left: none !important;
+}
+
+.Grid th
+{
+    color: #2a2a2a;
+    border-bottom: 1px #a5acb5 solid;
+    padding: 2px 4px 2px 10px;
+    background: url(/BackOffice.UI/Content/EN/Images/Grid/GridHeader-sep.png) no-repeat left center #f5f7f9;
+    font-weight: 600;
+    text-align: left;
+}
+.Grid th:first-child
+{
+    background: none;
+    background-color: #f5f7f9;
+}
+.Grid tr:last-child
+{
+    border-bottom: 1pt #a5acb5 solid !important;
+}
+
+.lastTr td
+{
+    border-bottom: 1px #a5acb5 solid !important;
+}
+.SelectedRow
+{
+    background: #E8F3FF;
+    color: #385694;
+}
+
+h1
+{
+    font-family: "Segoe UI" , Arial, "Lucida Sans" , sans-serif, Tahoma;
+    font-weight: bold;
+    font-size: 11px;
+    margin: 10px 0 5px 0;
+}
+
+.Grid2
+{
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #a5acb5;
+    font-family: "Segoe UI" , Arial, "Lucida Sans" , sans-serif, Tahoma;
+    font-size: 12px;
+    -webkit-transition: all 2s ease-in-out 1ms;
+    -moz-transition: all 2s ease-in-out 1ms;
+    -ms-transition: all 2s ease-in-out 1ms;
+    -o-transition: all 2s ease-in-out 1ms;
+    transition: all 2s ease-in-out 1ms;
+}
+.Grid2 td
+{
+    border-bottom: 0px solid #dbdee1;
+    padding: 10px 10px 10px 10px;
+    color: #454545;
+}
+.Grid2 td:first-child
+{
+    border-left: none;
+}
+.Grid2 h1
+{
+    font-family: "Segoe UI" , Arial, "Lucida Sans" , sans-serif, Tahoma;
+    font-weight: bold;
+    font-size: 11px;
+    margin: 0px 0 10px 0;
+    color: #3399cc;
+    text-decoration: underline;
+}
+
+.ColumnHeaderNumber
+{
+    text-align: center !important;
+}
+
+.ColumnHeaderText
+{
+    text-align: left !important;
+}
+/* -- END -- */
+
+.PadWaiting
+{
+    width: 150px;
+    color: #1F87D0;
+}
+.PadForm
+{
+    padding: 0 0 0 15px !important;
+}
+
+#wrapper
+{
+    left: 30%;
+    right: 30%; /*margin: 10px auto;*/
+    text-align: center;
+}
+
+#overlay
+{
+    background: #000000;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+    filter: alpha(opacity=50);
+    -moz-opacity: 0.5;
+    -khtml-opacity: 0.5;
+    opacity: 0.5;
+    bottom: 0;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 10000;
+}
+
+#popup
+{
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 20px solid #DDDDDD;
+    left: 30%;
+    right: 30%;
+    padding: 50px;
+    position: fixed;
+    text-align: center;
+    top: 28%;
+    z-index: 20000;
+    -moz-border-radius: 30px 0;
+}
+
+.logoArea
+{
+    /*float: right;*/
+    text-align: right;
+    width: 50%;
+}
+.loginInfo
+{
+    /*float: left;*/
+    text-align: left;
+    width: 50%;
+}
+.loginInfo span
+{
+    font-family: Segoe UI, Tahoma, Arial !important;
+    font-size: 11px;
+    color: #acacac;
+}
+
+.label-loginLabel
+{
+    color: #FFFFFF !important;
+    display: inline-block;
+    font-family: Segoe UI, Tahoma, Arial !important;
+    font-size: 12px !important;
+}
+.label-loginInfo
+{
+    color: #b3986f !important;
+    display: inline-block;
+    font-family: Segoe UI, Tahoma, Arial !important;
+    font-size: 12px !important;
+    font-weight: bold;
+}
+.label-environmentLabel
+{
+    /*color: #6cc81b !important;*/
+    display: inline-block;
+    font-family: Segoe UI, Tahoma, Arial !important;
+    font-size: 12px !important;
+    font-weight: bold;
+}
+
+.TransactionTitle {
+    color: #29282b;
+    font-family: Segoe UI, Tahoma, Arial;
+    font-size: 16px;
+    font-weight: normal;
+    text-transform: uppercase;
+}
+.underTitleDotted  {
+    border-bottom: 1px dotted #29282b;
+    height: 1px;
+}
+
+.error
+{
+    height: 100%;
+    text-align: left;
+    width: inherit;
+    margin-bottom: 10px;
+    border: solid 1px #FF9191;
+    background-color: #ffebe8;
+    /*background-image: url(/BackOffice.UI/Content/EN/images/Onyx/error.svg);
+	background-position: left 10px center;
+	background-repeat: no-repeat;
+	background-size: 18px auto;*/
+    padding-bottom: 7px;
+    font-family: Segoe UI, Tahoma, Arial;
+    font-size: 14px;
+    font-weight: 600;
+    color: #dd1010;
+    /*text-indent: 36px;*/
+    padding-left: 15px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    
+}
+
+#WarningMessage label {
+    font-family: Segoe UI, Tahoma, Arial;
+    font-size: 14px;
+    font-weight: 600;
+    color: #dd1010;
+}
+.error-successfull
+{
+    height: 100%;
+    text-align: left;
+    width: inherit;
+    margin-bottom: 10px;
+    border: solid 1px #6fd495;
+    background-color: #dbfae7;
+    /*background-image: url(/BackOffice.UI/Content/EN/images/Onyx/successful.svg);
+	background-position: left 10px center;
+	background-repeat: no-repeat;
+	background-size: 18px auto;*/
+    padding-bottom: 7px;
+    font-family: Segoe UI, Tahoma, Arial;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a783d;
+    /*text-indent: 36px;*/
+    padding-left: 15px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    
+}
+
+/*div.logo_back table span.title { font-size:19px !important; }*//* this is for arabic version */
+div.error div#WarningMessage label
+{
+    font-family: Segoe UI, Tahoma, Arial !important;
+}
+
+.mainWrapper
+{
+    width: 100%;
+    margin: 0 auto;
+    background: url(/BackOffice.UI/Content/EN/images/Onyx/bg-header.png) no-repeat scroll left top;
+}
+
+.ReportViewer
+{
+    font-family: Segoe UI, Tahoma, Arial;
+    font-size: 12px;
+    color: #56595c;
+    font-weight: bold;
+}
+
+span[disabled=disabled] { color: #a0a0a0; text-shadow: 1px 1px rgba(255, 255, 255, 1); }
+
+/* ------------ DEFAULT CONTROLS ------------ */
+INPUT 
+{
+    outline:none;
+	padding: 1px 4px;
+}
+INPUT[type=submit],
+INPUT[type=button]
+{
+    background-color: #b3986f;
+    border: solid 1px #997641;
+    /*min-width: 100px;*/
+    padding: 0px 16px;
+    cursor: pointer;
+    cursor: hand;
+    line-height: 19px;
+    font-size: 11px;
+    color: #fff;
+    text-transform: uppercase;
+    font-family: Segoe UI, Tahoma, Arial;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    
+    -webkit-transition: ease-out 1s;
+    -moz-transition: ease-out 1s;
+    -o-transition: ease-out 1s;
+    transition: ease-out 1s;
+}
+INPUT[type=submit]:hover,
+INPUT[type=button]:hover
+{
+    background-color: #997641;
+    border: solid 1px #997641;
+}
+
+INPUT[type=text] {
+	/*WIDTH: 98%;
+	HEIGHT: 13.63px;*/
+	border: 1px solid #C4C8CE;
+	background-color: #FFF;
+	color: #000 !important;
+    font-size: 12px !important;
+	font-weight: bold !important;
+}
+INPUT[type=text]:focus 
+{
+    /*border: 1px solid #61A6E4;*/
+}
+
+INPUT[disabled=disabled] 
+{
+    background-color: #e5e5e5 !important;
+    border: 1px solid #bdbdbd !important;
+    /*text-shadow: 1px 1px rgba(255, 255, 255, 1) !important;*/
+    color: rgba(0, 0, 0, 0.3) !important;
+    
+}
+INPUT[disabled=disabled]:hover
+{
+    background-color: #e5e5e5 !important;
+    border: 1px solid #bdbdbd !important;
+    /*text-shadow: 1px 1px rgba(255, 255, 255, 1) !important;*/
+    color: rgba(0, 0, 0, 0.3) !important;
+    cursor: text;
+    
+}
+
+INPUT[type=checkbox] 
+{
+    background: transparent;
+    border: 0px solid #bdbdbd;
+    text-shadow: 1px 1px rgba(255, 255, 255, 1) !important;
+    color: rgba(0, 0, 0, 0.3) !important;
+    
+}
+
+INPUT[readonly=readonly] 
+{
+    background-color: rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(195, 199, 205, 1);
+    color: #000 !important;
+    font-size: 12px !important;
+	font-weight: bold !important;
+}
+
+INPUT[locked=true] 
+{
+    text-indent: 15px;
+    /*background: url("~/Content/Images/Polaris/imagestrips/inlineedit_images.png") no-repeat -57px -24px;*/
+    overflow: hidden;
+    display: block;
+    line-height: 14px;
+}
+
+INPUT[type=image] {
+	/*WIDTH: 98%;
+	HEIGHT: 13.63px;*/
+	border: none !important;
+	background: transparent !important;
+	margin-top: 4px;
+    padding: 0 6px;
+}
+INPUT[type=image]:hover {
+	border: none !important;
+	background: transparent !important;
+	margin-top: 4px;
+    padding: 0 6px;
+}
+
+
+SELECT {
+	MIN-WIDTH: 100px;
+	HEIGHT: 22px;
+	border: 1px solid #C4C8CE;
+	background-color: #f3f1f2;
+	background-image: url(/BackOffice.UI/Content/EN/images/Onyx/dropdown.svg);
+	background-position: right 5px center;
+	background-repeat: no-repeat;
+	background-size: 8px auto;
+	
+	-webkit-appearance:none !important; /*Removes default chrome and safari style*/
+    -moz-appearance:none !important; /* Removes Default Firefox style*/
+    -o-appearance:none !important; /* Removes Default IE style*/
+    appearance:none !important; /* Removes Default IE style*/
+
+	text-indent: 1px; /* Removes default arrow from firefox*/
+	text-overflow: "";  /*Removes default arrow from firefox*/ /*My custom style for fonts*/
+	color: #000;
+	font-size: 11px;
+	text-transform: capitalize;
+	border-radius: 2px;
+	padding: 0px 0px;
+	vertical-align: middle;
+}
+SELECT::-ms-expand {
+  display:none !important;
+}
+SELECT:disabled
+{
+    background-color:transparent;
+}
+
+textarea {
+    WIDTH: 98.7%; border: 1px solid #C4C8CE;
+}
+textarea:focus {
+    /*border: 1px solid #61A6E4;*/
+}
