@@ -1,0 +1,82 @@
+//TypeStart
+public static VpSerializedDataList SerializeVpLocateCustomerInfoRequest(this Common.Definitions.UserManagement.VpLocateCustomerInfoRequest obj, List<Cryptology> propertiesToEncrypt = null)
+{
+    var list = new VpSerializedDataList(propertiesToEncrypt);
+    obj.SerializeVpLocateCustomerInfoRequest(0, null, null, "VpLocateCustomerInfoRequest", string.Empty, ref list);
+    return list;
+}
+
+public static int SerializeVpLocateCustomerInfoRequest(Common.Definitions.UserManagement.VpLocateCustomerInfoRequest obj, int ID, int? Index, int? ParentID, string propertyName, string propertyPath, ref VpSerializedDataList SerializeDataList, bool dummy = false)
+{
+    return obj.SerializeVpLocateCustomerInfoRequest(ID, Index, ParentID, propertyName, propertyPath, ref SerializeDataList);
+}
+
+internal static int SerializeVpLocateCustomerInfoRequest(this Common.Definitions.UserManagement.VpLocateCustomerInfoRequest obj, int ID, int? Index, int? ParentID, string propertyName, string propertyPath, ref VpSerializedDataList SerializeDataList)
+{
+    if (obj == null)
+        return 0;
+
+    int propertyParentID = ID;
+    propertyPath = string.IsNullOrEmpty(propertyPath) ? propertyName : $"{propertyPath}.{propertyName}";
+    SerializeDataList.Add(ID++, propertyName, null, Index, ParentID, "Common.Definitions.UserManagement.VpLocateCustomerInfoRequest", propertyPath);
+    ParentID = propertyParentID;
+
+    //PropertyClass
+    if (obj.IALVpLocateCustomerInfoRequest != null)
+        ID = obj.IALVpLocateCustomerInfoRequest.SerializeVpLocateCustomerInfoRequest(ID, null, ParentID, "IALVpLocateCustomerInfoRequest", propertyPath, ref SerializeDataList);
+
+    //PropertyPrimitive
+    if (obj.UserID != null)
+        SerializeDataList.Add(ID++, "UserID", obj.UserID, null, ParentID, "System.Int64", $"{propertyPath}.UserID");
+
+    //PropertyClass
+    if (obj.Header != null)
+        ID = obj.Header.SerializeTransactionHeader(ID, null, ParentID, "Header", propertyPath, ref SerializeDataList);
+
+    //PropertyPrimitive
+    if (!string.IsNullOrEmpty(obj.ReferenceNumber))
+        SerializeDataList.Add(ID++, "ReferenceNumber", obj.ReferenceNumber, null, ParentID, "System.String", $"{propertyPath}.ReferenceNumber");
+
+    return ID;
+}
+//TypeEnd
+
+
+//TypeStart
+public static VpSerializedDataList SerializeVpLocateCustomerInfoResponse(this Common.Definitions.UserManagement.VpLocateCustomerInfoResponse obj, List<Cryptology> propertiesToEncrypt = null)
+{
+    var list = new VpSerializedDataList(propertiesToEncrypt);
+    obj.SerializeVpLocateCustomerInfoResponse(0, null, null, "VpLocateCustomerInfoResponse", string.Empty, ref list);
+    return list;
+}
+
+public static int SerializeVpLocateCustomerInfoResponse(Common.Definitions.UserManagement.VpLocateCustomerInfoResponse obj, int ID, int? Index, int? ParentID, string propertyName, string propertyPath, ref VpSerializedDataList SerializeDataList, bool dummy = false)
+{
+    return obj.SerializeVpLocateCustomerInfoResponse(ID, Index, ParentID, propertyName, propertyPath, ref SerializeDataList);
+}
+
+internal static int SerializeVpLocateCustomerInfoResponse(this Common.Definitions.UserManagement.VpLocateCustomerInfoResponse obj, int ID, int? Index, int? ParentID, string propertyName, string propertyPath, ref VpSerializedDataList SerializeDataList)
+{
+    if (obj == null)
+        return 0;
+
+    int propertyParentID = ID;
+    propertyPath = string.IsNullOrEmpty(propertyPath) ? propertyName : $"{propertyPath}.{propertyName}";
+    SerializeDataList.Add(ID++, propertyName, null, Index, ParentID, "Common.Definitions.UserManagement.VpLocateCustomerInfoResponse", propertyPath);
+    ParentID = propertyParentID;
+
+    //PropertyClass
+    if (obj.IALVpLocateCustomerInfoResponse != null)
+        ID = obj.IALVpLocateCustomerInfoResponse.SerializeVpLocateCustomerInfoResponse(ID, null, ParentID, "IALVpLocateCustomerInfoResponse", propertyPath, ref SerializeDataList);
+
+    //PropertyPrimitive
+    if (obj.IsSuccess != null)
+        SerializeDataList.Add(ID++, "IsSuccess", obj.IsSuccess, null, ParentID, "System.Boolean", $"{propertyPath}.IsSuccess");
+
+    //PropertyClass
+    if (obj.Footer != null)
+        ID = obj.Footer.SerializeTransactionFooter(ID, null, ParentID, "Footer", propertyPath, ref SerializeDataList);
+
+    return ID;
+}
+//TypeEnd
