@@ -1,0 +1,99 @@
+//TypeStart
+public static Common.Definitions.UserManagement.VpLocateCustomerInfoRequest DeserializeVpLocateCustomerInfoRequest(this Common.Definitions.UserManagement.VpLocateCustomerInfoRequest obj, List<VpSerializedData> dataList)
+{
+    return obj.DeserializeVpLocateCustomerInfoRequest(dataList, 0);
+}
+
+public static Common.Definitions.UserManagement.VpLocateCustomerInfoRequest DeserializeVpLocateCustomerInfoRequest(this Common.Definitions.UserManagement.VpLocateCustomerInfoRequest obj, List<VpSerializedData> dataList, int? id, bool dummy = false)
+{
+    return obj.DeserializeVpLocateCustomerInfoRequest(dataList, id);
+}
+
+internal static Common.Definitions.UserManagement.VpLocateCustomerInfoRequest DeserializeVpLocateCustomerInfoRequest(this Common.Definitions.UserManagement.VpLocateCustomerInfoRequest obj, List<VpSerializedData> dataList, int? id)
+{
+    if (dataList == null)
+        return null;
+
+    var container = dataList.FirstOrDefault(x => x.ID == id);
+    if (container == null)
+        return null;
+
+    var dictionary = dataList.Where(x => x.ParentID == container.ID).ToDictionary(x => x.PropertyName);
+
+    //PropertyClass
+    VpSerializedData ialRequestElement = null;
+    if (dictionary.TryGetValue("IALVpLocateCustomerInfoRequest", out ialRequestElement))
+    {
+        obj.IALVpLocateCustomerInfoRequest = new CustomerManagement.MessageDefinitions.LocateCustomerInfo.VpLocateCustomerInfoRequest();
+        obj.IALVpLocateCustomerInfoRequest.DeserializeVpLocateCustomerInfoRequest(dataList, ialRequestElement.ID);
+    }
+
+    //PropertyPrimitive
+    VpSerializedData UserIDElement = null;
+    if (dictionary.TryGetValue("UserID", out UserIDElement) && UserIDElement.Value != null)
+        obj.UserID = Deserializer.ConvertValue<System.Int64>(UserIDElement.Value);
+
+    //PropertyClass
+    VpSerializedData HeaderElement = null;
+    if (dictionary.TryGetValue("Header", out HeaderElement))
+    {
+        obj.Header = new VeriBranch.Framework.Definitions.TransactionHeader();
+        obj.Header.DeserializeTransactionHeader(dataList, HeaderElement.ID);
+    }
+
+    //PropertyPrimitive
+    VpSerializedData ReferenceNumberElement = null;
+    if (dictionary.TryGetValue("ReferenceNumber", out ReferenceNumberElement) && ReferenceNumberElement.Value != null)
+        obj.ReferenceNumber = Deserializer.ConvertValue<System.String>(ReferenceNumberElement.Value);
+
+    return obj;
+}
+//TypeEnd
+
+
+//TypeStart
+public static Common.Definitions.UserManagement.VpLocateCustomerInfoResponse DeserializeVpLocateCustomerInfoResponse(this Common.Definitions.UserManagement.VpLocateCustomerInfoResponse obj, List<VpSerializedData> dataList)
+{
+    return obj.DeserializeVpLocateCustomerInfoResponse(dataList, 0);
+}
+
+public static Common.Definitions.UserManagement.VpLocateCustomerInfoResponse DeserializeVpLocateCustomerInfoResponse(this Common.Definitions.UserManagement.VpLocateCustomerInfoResponse obj, List<VpSerializedData> dataList, int? id, bool dummy = false)
+{
+    return obj.DeserializeVpLocateCustomerInfoResponse(dataList, id);
+}
+
+internal static Common.Definitions.UserManagement.VpLocateCustomerInfoResponse DeserializeVpLocateCustomerInfoResponse(this Common.Definitions.UserManagement.VpLocateCustomerInfoResponse obj, List<VpSerializedData> dataList, int? id)
+{
+    if (dataList == null)
+        return null;
+
+    var container = dataList.FirstOrDefault(x => x.ID == id);
+    if (container == null)
+        return null;
+
+    var dictionary = dataList.Where(x => x.ParentID == container.ID).ToDictionary(x => x.PropertyName);
+
+    //PropertyClass
+    VpSerializedData ialResponseElement = null;
+    if (dictionary.TryGetValue("IALVpLocateCustomerInfoResponse", out ialResponseElement))
+    {
+        obj.IALVpLocateCustomerInfoResponse = new CustomerManagement.MessageDefinitions.LocateCustomerInfo.VpLocateCustomerInfoResponse();
+        obj.IALVpLocateCustomerInfoResponse.DeserializeVpLocateCustomerInfoResponse(dataList, ialResponseElement.ID);
+    }
+
+    //PropertyPrimitive
+    VpSerializedData IsSuccessElement = null;
+    if (dictionary.TryGetValue("IsSuccess", out IsSuccessElement) && IsSuccessElement.Value != null)
+        obj.IsSuccess = Deserializer.ConvertValue<System.Boolean>(IsSuccessElement.Value);
+
+    //PropertyClass
+    VpSerializedData FooterElement = null;
+    if (dictionary.TryGetValue("Footer", out FooterElement))
+    {
+        obj.Footer = new VeriBranch.Framework.Definitions.TransactionFooter();
+        obj.Footer.DeserializeTransactionFooter(dataList, FooterElement.ID);
+    }
+
+    return obj;
+}
+//TypeEnd
