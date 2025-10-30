@@ -1,0 +1,679 @@
+
+//AssemblyStart
+using System;
+using System.Text;
+using System.Linq;
+using System.Collections.Generic;
+using VeriBranch.Custom.Common;
+
+
+#pragma warning disable 219, 472
+namespace Veripark.CustomDeserializer
+{
+	public static class Common_Definitions_UserManagementDeserializer
+	{
+//TypeStart
+		public static Common.Definitions.UserManagement.VpRetailAMLCheckInquiryRequest DeserializeVpRetailAMLCheckInquiryRequest(this Common.Definitions.UserManagement.VpRetailAMLCheckInquiryRequest obj, List<VpSerializedData> dataList)
+		{
+			return obj.DeserializeVpRetailAMLCheckInquiryRequest(dataList, 0);
+		}
+		
+		public static Common.Definitions.UserManagement.VpRetailAMLCheckInquiryRequest DeserializeVpRetailAMLCheckInquiryRequest(this Common.Definitions.UserManagement.VpRetailAMLCheckInquiryRequest obj, List<VpSerializedData> dataList, int? id, bool dummy = false)
+		{
+			return obj.DeserializeVpRetailAMLCheckInquiryRequest(dataList, id);
+		}
+		
+		internal static Common.Definitions.UserManagement.VpRetailAMLCheckInquiryRequest DeserializeVpRetailAMLCheckInquiryRequest(this Common.Definitions.UserManagement.VpRetailAMLCheckInquiryRequest obj, List<VpSerializedData> dataList, int? id)
+		{
+			if (dataList == null)
+				return null;
+			
+			var VpRetailAMLCheckInquiryRequestContainer = dataList.FirstOrDefault((x => x.ID == id));
+			if (VpRetailAMLCheckInquiryRequestContainer == null)
+				return null;
+			
+			var dictionary = dataList.Where(x => x.ParentID == VpRetailAMLCheckInquiryRequestContainer.ID).ToDictionary(x => x.PropertyName);
+			
+			//PropertyClass
+			VpSerializedData IALRetailAMLCheckRequestElement = null;
+			if (dictionary.TryGetValue("IALRetailAMLCheckRequest", out IALRetailAMLCheckRequestElement))
+			{
+				obj.IALRetailAMLCheckRequest = new CustomerManagement.MessageDefinitions.RetailAMLCheck.VpRetailAMLCheckRequest();
+				obj.IALRetailAMLCheckRequest.DeserializeVpRetailAMLCheckRequest(dataList, IALRetailAMLCheckRequestElement.ID);
+			}
+			
+			//PropertyPrimitive
+			VpSerializedData UserIDElement = null;
+			if (dictionary.TryGetValue("UserID", out UserIDElement) && UserIDElement.Value != null)
+				obj.UserID = Deserializer.ConvertValue<System.Int64>(UserIDElement.Value);
+			
+			//PropertyPrimitive
+			VpSerializedData TransactionRequestDateElement = null;
+			if (dictionary.TryGetValue("TransactionRequestDate", out TransactionRequestDateElement) && TransactionRequestDateElement.Value != null)
+				obj.TransactionRequestDate = Deserializer.ConvertDateTime(TransactionRequestDateElement.Value);
+			
+			//PropertyPrimitive
+			VpSerializedData TicketNumberElement = null;
+			if (dictionary.TryGetValue("TicketNumber", out TicketNumberElement) && TicketNumberElement.Value != null)
+				obj.TicketNumber = Deserializer.ConvertValue<System.Int64>(TicketNumberElement.Value);
+			
+			//PropertyPrimitive
+			VpSerializedData CurrentCultureElement = null;
+			if (dictionary.TryGetValue("CurrentCulture", out CurrentCultureElement) && CurrentCultureElement.Value != null)
+				obj.CurrentCulture = Deserializer.ConvertValue<System.String>(CurrentCultureElement.Value);
+			
+			//CollectionPropertyStart
+			VpSerializedData CustomLogEntryListElement = null;
+			if (dictionary.TryGetValue("CustomLogEntryList", out CustomLogEntryListElement))
+			{
+				var  subList = dataList.Where(x => x.ParentID == CustomLogEntryListElement.ID );
+				List<VeriBranch.Framework.Definitions.VPLogEntry> CustomLogEntryListList = new List<VeriBranch.Framework.Definitions.VPLogEntry>();
+				foreach (var item in subList)
+				{
+					
+					//CollectionPropertyBodyClass
+					CustomLogEntryListList.Add(new VeriBranch.Framework.Definitions.VPLogEntry().DeserializeVPLogEntry(dataList.Where(x => x.ParentID >= item.ID || x.ID == item.ID).ToList(), item.ID));
+					
+					//CollectionPropertyEnd
+				}
+				obj.CustomLogEntryList = CustomLogEntryListList.ToArray();
+			}
+			
+			//PropertyClass
+			VpSerializedData HeaderElement = null;
+			if (dictionary.TryGetValue("Header", out HeaderElement))
+			{
+				obj.Header = new VeriBranch.Framework.Definitions.TransactionHeader();
+				obj.Header.DeserializeTransactionHeader(dataList, HeaderElement.ID);
+			}
+			
+			//PropertyPrimitive
+			VpSerializedData EntitlementCodeElement = null;
+			if (dictionary.TryGetValue("EntitlementCode", out EntitlementCodeElement) && EntitlementCodeElement.Value != null)
+				obj.EntitlementCode = Deserializer.ConvertValue<System.String>(EntitlementCodeElement.Value);
+			
+			//CollectionPropertyStart
+			VpSerializedData TransactionActionsElement = null;
+			if (dictionary.TryGetValue("TransactionActions", out TransactionActionsElement))
+			{
+				var  subList = dataList.Where(x => x.ParentID == TransactionActionsElement.ID );
+				List<VeriBranch.Framework.Definitions.VPApprovalAction> TransactionActionsList = new List<VeriBranch.Framework.Definitions.VPApprovalAction>();
+				foreach (var item in subList)
+				{
+					
+					//CollectionPropertyBodyClass
+					TransactionActionsList.Add(new VeriBranch.Framework.Definitions.VPApprovalAction().DeserializeVPApprovalAction(dataList.Where(x => x.ParentID >= item.ID || x.ID == item.ID).ToList(), item.ID));
+					
+					//CollectionPropertyEnd
+				}
+				obj.TransactionActions = TransactionActionsList.ToArray();
+			}
+			
+			//PropertyClass
+			VpSerializedData DocumentPackageElement = null;
+			if (dictionary.TryGetValue("DocumentPackage", out DocumentPackageElement))
+			{
+				obj.DocumentPackage = new VeriBranch.Framework.Definitions.VPDocumentPackage();
+				obj.DocumentPackage.DeserializeVPDocumentPackage(dataList, DocumentPackageElement.ID);
+			}
+			
+			//PropertyClass
+			VpSerializedData TransactionRequestDateInHijriElement = null;
+			if (dictionary.TryGetValue("TransactionRequestDateInHijri", out TransactionRequestDateInHijriElement))
+			{
+				obj.TransactionRequestDateInHijri = new VeriBranch.Framework.Definitions.VPHijriDate();
+				obj.TransactionRequestDateInHijri.DeserializeVPHijriDate(dataList, TransactionRequestDateInHijriElement.ID);
+			}
+			
+			//PropertyPrimitive
+			VpSerializedData SelectedCampaignCodeElement = null;
+			if (dictionary.TryGetValue("SelectedCampaignCode", out SelectedCampaignCodeElement) && SelectedCampaignCodeElement.Value != null)
+				obj.SelectedCampaignCode = Deserializer.ConvertValue<System.String>(SelectedCampaignCodeElement.Value);
+			
+			//CollectionPropertyStart
+			VpSerializedData FileForUploadElement = null;
+			if (dictionary.TryGetValue("FileForUpload", out FileForUploadElement))
+			{
+				var  subList = dataList.Where(x => x.ParentID == FileForUploadElement.ID );
+				List<VeriBranch.Framework.Definitions.Blob> FileForUploadList = new List<VeriBranch.Framework.Definitions.Blob>();
+				foreach (var item in subList)
+				{
+					
+					//CollectionPropertyBodyClass
+					FileForUploadList.Add(new VeriBranch.Framework.Definitions.Blob().DeserializeBlob(dataList.Where(x => x.ParentID >= item.ID || x.ID == item.ID).ToList(), item.ID));
+					
+					//CollectionPropertyEnd
+				}
+				obj.FileForUpload = FileForUploadList;
+			}
+			
+			//CollectionPropertyStart
+			VpSerializedData CheckListAnswerElement = null;
+			if (dictionary.TryGetValue("CheckListAnswer", out CheckListAnswerElement))
+			{
+				var  subList = dataList.Where(x => x.ParentID == CheckListAnswerElement.ID );
+				List<VeriBranch.Framework.Definitions.VPCheckListAnswer> CheckListAnswerList = new List<VeriBranch.Framework.Definitions.VPCheckListAnswer>();
+				foreach (var item in subList)
+				{
+					
+					//CollectionPropertyBodyClass
+					CheckListAnswerList.Add(new VeriBranch.Framework.Definitions.VPCheckListAnswer().DeserializeVPCheckListAnswer(dataList.Where(x => x.ParentID >= item.ID || x.ID == item.ID).ToList(), item.ID));
+					
+					//CollectionPropertyEnd
+				}
+				obj.CheckListAnswer = CheckListAnswerList.ToArray();
+			}
+			
+			//CollectionPropertyStart
+			VpSerializedData UploadedDocumentPackagesElement = null;
+			if (dictionary.TryGetValue("UploadedDocumentPackages", out UploadedDocumentPackagesElement))
+			{
+				var  subList = dataList.Where(x => x.ParentID == UploadedDocumentPackagesElement.ID );
+				List<VeriBranch.Framework.Definitions.VPUploadedDocumentPackage> UploadedDocumentPackagesList = new List<VeriBranch.Framework.Definitions.VPUploadedDocumentPackage>();
+				foreach (var item in subList)
+				{
+					
+					//CollectionPropertyBodyClass
+					UploadedDocumentPackagesList.Add(new VeriBranch.Framework.Definitions.VPUploadedDocumentPackage().DeserializeVPUploadedDocumentPackage(dataList.Where(x => x.ParentID >= item.ID || x.ID == item.ID).ToList(), item.ID));
+					
+					//CollectionPropertyEnd
+				}
+				obj.UploadedDocumentPackages = UploadedDocumentPackagesList.ToArray();
+			}
+			
+			//CollectionPropertyStart
+			VpSerializedData OtherUploadedDocumentCodesElement = null;
+			if (dictionary.TryGetValue("OtherUploadedDocumentCodes", out OtherUploadedDocumentCodesElement))
+			{
+				var  subList = dataList.Where(x => x.ParentID == OtherUploadedDocumentCodesElement.ID );
+				List<System.String> OtherUploadedDocumentCodesList = new List<System.String>();
+				foreach (var item in subList)
+				{
+					
+					//CollectionPropertyBodyPrimative
+					OtherUploadedDocumentCodesList.Add(Deserializer.ConvertValue<System.String>(item.Value));
+					
+					//CollectionPropertyEnd
+				}
+				obj.OtherUploadedDocumentCodes = OtherUploadedDocumentCodesList.ToArray();
+			}
+			
+			//PropertyPrimitive
+			VpSerializedData IsRetryElement = null;
+			if (dictionary.TryGetValue("IsRetry", out IsRetryElement) && IsRetryElement.Value != null)
+				obj.IsRetry = Deserializer.ConvertValue<System.Boolean>(IsRetryElement.Value);
+			
+			//PropertyClass
+			VpSerializedData ReferCardApprovalFlagElement = null;
+			if (dictionary.TryGetValue("ReferCardApprovalFlag", out ReferCardApprovalFlagElement))
+			{
+				obj.ReferCardApprovalFlag = new VeriBranch.Framework.Definitions.ReferCardApprovalFlags();
+				obj.ReferCardApprovalFlag.DeserializeReferCardApprovalFlags(dataList, ReferCardApprovalFlagElement.ID);
+			}
+			
+			//PropertyPrimitive
+			VpSerializedData ApprovalDepartmentElement = null;
+			if (dictionary.TryGetValue("ApprovalDepartment", out ApprovalDepartmentElement) && ApprovalDepartmentElement.Value != null)
+				obj.ApprovalDepartment = Deserializer.ConvertEnum<VeriBranch.Framework.Definitions.ApprovalDepartmentEnum>(ApprovalDepartmentElement.Value);
+			
+			//PropertyClass
+			VpSerializedData LogFieldsElement = null;
+			if (dictionary.TryGetValue("LogFields", out LogFieldsElement))
+			{
+				obj.LogFields = new VeriBranch.Framework.Definitions.LogField();
+				obj.LogFields.DeserializeLogField(dataList, LogFieldsElement.ID);
+			}
+			
+			//PropertyPrimitive
+			VpSerializedData ReferenceNumberElement = null;
+			if (dictionary.TryGetValue("ReferenceNumber", out ReferenceNumberElement) && ReferenceNumberElement.Value != null)
+				obj.ReferenceNumber = Deserializer.ConvertValue<System.String>(ReferenceNumberElement.Value);
+			
+			//PropertyPrimitive
+			VpSerializedData NonStpTrackingNumberElement = null;
+			if (dictionary.TryGetValue("NonStpTrackingNumber", out NonStpTrackingNumberElement) && NonStpTrackingNumberElement.Value != null)
+				obj.NonStpTrackingNumber = Deserializer.ConvertValue<System.String>(NonStpTrackingNumberElement.Value);
+			
+			//PropertyPrimitive
+			VpSerializedData NonStpTransactionIDElement = null;
+			if (dictionary.TryGetValue("NonStpTransactionID", out NonStpTransactionIDElement) && NonStpTransactionIDElement.Value != null)
+				obj.NonStpTransactionID = Deserializer.ConvertValue<System.Int64>(NonStpTransactionIDElement.Value);
+			
+			//PropertyPrimitive
+			VpSerializedData NonStpTransactionGroupIDElement = null;
+			if (dictionary.TryGetValue("NonStpTransactionGroupID", out NonStpTransactionGroupIDElement) && NonStpTransactionGroupIDElement.Value != null)
+				obj.NonStpTransactionGroupID = Deserializer.ConvertValue<System.Int64>(NonStpTransactionGroupIDElement.Value);
+			
+			return obj;
+			
+			//TypeEnd
+		}
+		
+		//TypeStart
+		public static Common.Definitions.UserManagement.VpRetailAMLCheckInquiryResponse DeserializeVpRetailAMLCheckInquiryResponse(this Common.Definitions.UserManagement.VpRetailAMLCheckInquiryResponse obj, List<VpSerializedData> dataList)
+		{
+			return obj.DeserializeVpRetailAMLCheckInquiryResponse(dataList, 0);
+		}
+		
+		public static Common.Definitions.UserManagement.VpRetailAMLCheckInquiryResponse DeserializeVpRetailAMLCheckInquiryResponse(this Common.Definitions.UserManagement.VpRetailAMLCheckInquiryResponse obj, List<VpSerializedData> dataList, int? id, bool dummy = false)
+		{
+			return obj.DeserializeVpRetailAMLCheckInquiryResponse(dataList, id);
+		}
+		
+		internal static Common.Definitions.UserManagement.VpRetailAMLCheckInquiryResponse DeserializeVpRetailAMLCheckInquiryResponse(this Common.Definitions.UserManagement.VpRetailAMLCheckInquiryResponse obj, List<VpSerializedData> dataList, int? id)
+		{
+			if (dataList == null)
+				return null;
+			
+			var VpRetailAMLCheckInquiryResponseContainer = dataList.FirstOrDefault((x => x.ID == id));
+			if (VpRetailAMLCheckInquiryResponseContainer == null)
+				return null;
+			
+			var dictionary = dataList.Where(x => x.ParentID == VpRetailAMLCheckInquiryResponseContainer.ID).ToDictionary(x => x.PropertyName);
+			
+			//PropertyClass
+			VpSerializedData IALRetailAMLCheckResponseElement = null;
+			if (dictionary.TryGetValue("IALRetailAMLCheckResponse", out IALRetailAMLCheckResponseElement))
+			{
+				obj.IALRetailAMLCheckResponse = new CustomerManagement.MessageDefinitions.RetailAMLCheck.VpRetailAMLCheckResponse();
+				obj.IALRetailAMLCheckResponse.DeserializeVpRetailAMLCheckResponse(dataList, IALRetailAMLCheckResponseElement.ID);
+			}
+			
+			//PropertyPrimitive
+			VpSerializedData ExecutionStatusElement = null;
+			if (dictionary.TryGetValue("ExecutionStatus", out ExecutionStatusElement) && ExecutionStatusElement.Value != null)
+				obj.ExecutionStatus = Deserializer.ConvertEnum<VeriBranch.Framework.Definitions.ExecutionStatusEnum>(ExecutionStatusElement.Value);
+			
+			//PropertyPrimitive
+			VpSerializedData IsSuccessElement = null;
+			if (dictionary.TryGetValue("IsSuccess", out IsSuccessElement) && IsSuccessElement.Value != null)
+				obj.IsSuccess = Deserializer.ConvertValue<System.Boolean>(IsSuccessElement.Value);
+			
+			//PropertyPrimitive
+			VpSerializedData IsRescheduledElement = null;
+			if (dictionary.TryGetValue("IsRescheduled", out IsRescheduledElement) && IsRescheduledElement.Value != null)
+				obj.IsRescheduled = Deserializer.ConvertValue<System.Boolean>(IsRescheduledElement.Value);
+			
+			//PropertyPrimitive
+			VpSerializedData CutoffRescheduledElement = null;
+			if (dictionary.TryGetValue("CutoffRescheduled", out CutoffRescheduledElement) && CutoffRescheduledElement.Value != null)
+				obj.CutoffRescheduled = Deserializer.ConvertValue<System.Boolean>(CutoffRescheduledElement.Value);
+			
+			//PropertyPrimitive
+			VpSerializedData CurrentCultureElement = null;
+			if (dictionary.TryGetValue("CurrentCulture", out CurrentCultureElement) && CurrentCultureElement.Value != null)
+				obj.CurrentCulture = Deserializer.ConvertValue<System.String>(CurrentCultureElement.Value);
+			
+			//PropertyClass
+			VpSerializedData FooterElement = null;
+			if (dictionary.TryGetValue("Footer", out FooterElement))
+			{
+				obj.Footer = new VeriBranch.Framework.Definitions.TransactionFooter();
+				obj.Footer.DeserializeTransactionFooter(dataList, FooterElement.ID);
+			}
+			
+			//PropertyClass
+			VpSerializedData OTPInfoElement = null;
+			if (dictionary.TryGetValue("OTPInfo", out OTPInfoElement))
+			{
+				obj.OTPInfo = new VeriBranch.Framework.Definitions.OTPInfo();
+				obj.OTPInfo.DeserializeOTPInfo(dataList, OTPInfoElement.ID);
+			}
+			
+			//PropertyPrimitive
+			VpSerializedData ResolvedExternalReferenceNumberElement = null;
+			if (dictionary.TryGetValue("ResolvedExternalReferenceNumber", out ResolvedExternalReferenceNumberElement) && ResolvedExternalReferenceNumberElement.Value != null)
+				obj.ResolvedExternalReferenceNumber = Deserializer.ConvertValue<System.String>(ResolvedExternalReferenceNumberElement.Value);
+			
+			//PropertyPrimitive
+			VpSerializedData ResolvedPostingDateTimeElement = null;
+			if (dictionary.TryGetValue("ResolvedPostingDateTime", out ResolvedPostingDateTimeElement) && ResolvedPostingDateTimeElement.Value != null)
+				obj.ResolvedPostingDateTime = Deserializer.ConvertValue<System.String>(ResolvedPostingDateTimeElement.Value);
+			
+			//PropertyPrimitive
+			VpSerializedData ReferenceNumberElement = null;
+			if (dictionary.TryGetValue("ReferenceNumber", out ReferenceNumberElement) && ReferenceNumberElement.Value != null)
+				obj.ReferenceNumber = Deserializer.ConvertValue<System.String>(ReferenceNumberElement.Value);
+			
+			//PropertyPrimitive
+			VpSerializedData NonStpTrackingNumberElement = null;
+			if (dictionary.TryGetValue("NonStpTrackingNumber", out NonStpTrackingNumberElement) && NonStpTrackingNumberElement.Value != null)
+				obj.NonStpTrackingNumber = Deserializer.ConvertValue<System.String>(NonStpTrackingNumberElement.Value);
+			
+			//PropertyPrimitive
+			VpSerializedData NonStpTransactionIDElement = null;
+			if (dictionary.TryGetValue("NonStpTransactionID", out NonStpTransactionIDElement) && NonStpTransactionIDElement.Value != null)
+				obj.NonStpTransactionID = Deserializer.ConvertValue<System.Int64>(NonStpTransactionIDElement.Value);
+			
+			//PropertyPrimitive
+			VpSerializedData NonStpTransactionGroupIDElement = null;
+			if (dictionary.TryGetValue("NonStpTransactionGroupID", out NonStpTransactionGroupIDElement) && NonStpTransactionGroupIDElement.Value != null)
+				obj.NonStpTransactionGroupID = Deserializer.ConvertValue<System.Int64>(NonStpTransactionGroupIDElement.Value);
+			
+			return obj;
+			
+			//TypeEnd
+		}
+	
+		//AssemblyEnd
+	}
+}
+
+
+
+
+
+
+//AssemblyStart
+using System;
+using System.Text;
+using System.Collections.Generic;
+using VeriBranch.Custom.Common;
+using VeriBranch.Framework.Definitions;
+
+
+#pragma warning disable 219, 472
+namespace Veripark.CustomSerializer
+{
+	public static class Common_Definitions_UserManagementSerializer
+	{
+
+		//TypeStart
+		public static VpSerializedDataList SerializeVpRetailAMLCheckInquiryRequest(this Common.Definitions.UserManagement.VpRetailAMLCheckInquiryRequest obj, List<Cryptology> propertiesToEncrypt = null)
+		{
+			var list = new VpSerializedDataList(propertiesToEncrypt);
+			obj.SerializeVpRetailAMLCheckInquiryRequest( 0, null, null, "VpRetailAMLCheckInquiryRequest", string.Empty, ref list);
+			return list;
+		}
+		
+		public static int SerializeVpRetailAMLCheckInquiryRequest(Common.Definitions.UserManagement.VpRetailAMLCheckInquiryRequest obj, int ID, int? Index, int? ParentID, string propertyName, string propertyPath, ref VpSerializedDataList SerializeDataList, bool dummy = false)
+		{
+			return obj.SerializeVpRetailAMLCheckInquiryRequest(ID, Index, ParentID, propertyName, propertyPath, ref SerializeDataList);
+		}
+		internal static int SerializeVpRetailAMLCheckInquiryRequest(this Common.Definitions.UserManagement.VpRetailAMLCheckInquiryRequest obj, int ID, int? Index, int? ParentID, string propertyName, string propertyPath, ref VpSerializedDataList SerializeDataList)
+		{
+			if (obj==null)
+				return 0;
+			
+			int propertyParentID = ID;
+			
+			// Base type
+			propertyPath = string.IsNullOrEmpty(propertyPath) ? propertyName : string.Format("{0}.{1}", propertyPath, propertyName);
+			SerializeDataList.Add(ID++, propertyName, null, Index, ParentID, "Common.Definitions.UserManagement.VpRetailAMLCheckInquiryRequest", propertyPath);
+			ParentID = propertyParentID;
+			
+			//PropertyClass
+			if(obj.IALRetailAMLCheckRequest != null)
+				ID = obj.IALRetailAMLCheckRequest.SerializeVpRetailAMLCheckRequest(ID, null, ParentID, "IALRetailAMLCheckRequest", propertyPath, ref SerializeDataList);
+			
+			//PropertyPrimitive
+			if(obj.UserID != null)
+				SerializeDataList.Add(ID++,  "UserID", obj.UserID,null , ParentID, "System.Int64", string.Format("{0}.{1}", propertyPath, "UserID"));
+			
+			//PropertyPrimitive
+			if(obj.TransactionRequestDate != null)
+				SerializeDataList.Add(ID++,  "TransactionRequestDate", obj.TransactionRequestDate,null , ParentID, "System.DateTime", string.Format("{0}.{1}", propertyPath, "TransactionRequestDate"));
+			
+			//PropertyPrimitive
+			if(obj.TicketNumber != null)
+				SerializeDataList.Add(ID++,  "TicketNumber", obj.TicketNumber,null , ParentID, "System.Int64", string.Format("{0}.{1}", propertyPath, "TicketNumber"));
+			
+			//PropertyPrimitive
+			if(!string.IsNullOrEmpty(obj.CurrentCulture))
+				SerializeDataList.Add(ID++,  "CurrentCulture", obj.CurrentCulture,null , ParentID, "System.String", string.Format("{0}.{1}", propertyPath, "CurrentCulture"));
+			
+			//CollectionPropertyStart
+			if(obj.CustomLogEntryList != null)
+			{
+				int CustomLogEntryListID = ID;
+				string CustomLogEntryListPropertyPath = string.Format("{0}.{1}", propertyPath, "CustomLogEntryList");
+				SerializeDataList.Add(ID++, "CustomLogEntryList",null ,Index , ParentID, "VeriBranch.Framework.Definitions.VPLogEntry[]",CustomLogEntryListPropertyPath);
+				int Count = 0;
+				foreach (var item in obj.CustomLogEntryList)
+				{
+					string itemPropertyPath = CustomLogEntryListPropertyPath;
+					
+					//CollectionPropertyBodyClass
+					ID = item.SerializeVPLogEntry(ID, Count++, CustomLogEntryListID, "CustomLogEntryList", itemPropertyPath, ref SerializeDataList);
+					
+					//CollectionPropertyEnd
+				}
+			}
+			
+			//PropertyClass
+			if(obj.Header != null)
+				ID = obj.Header.SerializeTransactionHeader(ID, null, ParentID, "Header", propertyPath, ref SerializeDataList);
+			
+			//PropertyPrimitive
+			if(!string.IsNullOrEmpty(obj.EntitlementCode))
+				SerializeDataList.Add(ID++,  "EntitlementCode", obj.EntitlementCode,null , ParentID, "System.String", string.Format("{0}.{1}", propertyPath, "EntitlementCode"));
+			
+			//CollectionPropertyStart
+			if(obj.TransactionActions != null)
+			{
+				int TransactionActionsID = ID;
+				string TransactionActionsPropertyPath = string.Format("{0}.{1}", propertyPath, "TransactionActions");
+				SerializeDataList.Add(ID++, "TransactionActions",null ,Index , ParentID, "VeriBranch.Framework.Definitions.VPApprovalAction[]",TransactionActionsPropertyPath);
+				int Count = 0;
+				foreach (var item in obj.TransactionActions)
+				{
+					string itemPropertyPath = string.Format(TransactionActionsPropertyPath + ".{0}", Count);
+					
+					//CollectionPropertyBodyClass
+					ID = item.SerializeVPApprovalAction(ID, Count++, TransactionActionsID, "TransactionActions", itemPropertyPath, ref SerializeDataList);
+					
+					//CollectionPropertyEnd
+				}
+			}
+			
+			//PropertyClass
+			if(obj.DocumentPackage != null)
+				ID = obj.DocumentPackage.SerializeVPDocumentPackage(ID, null, ParentID, "DocumentPackage", propertyPath, ref SerializeDataList);
+			
+			//PropertyClass
+			if(obj.TransactionRequestDateInHijri != null)
+				ID = obj.TransactionRequestDateInHijri.SerializeVPHijriDate(ID, null, ParentID, "TransactionRequestDateInHijri", propertyPath, ref SerializeDataList);
+			
+			//PropertyPrimitive
+			if(!string.IsNullOrEmpty(obj.SelectedCampaignCode))
+				SerializeDataList.Add(ID++,  "SelectedCampaignCode", obj.SelectedCampaignCode,null , ParentID, "System.String", string.Format("{0}.{1}", propertyPath, "SelectedCampaignCode"));
+			
+			//CollectionPropertyStart
+			if(obj.FileForUpload != null)
+			{
+				int FileForUploadID = ID;
+				string FileForUploadPropertyPath = string.Format("{0}.{1}", propertyPath, "FileForUpload");
+				SerializeDataList.Add(ID++, "FileForUpload",null ,Index , ParentID, "System.Collections.Generic.List`1[[VeriBranch.Framework.Definitions.Blob, VeriBranch.Framework.Definitions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",FileForUploadPropertyPath);
+				int Count = 0;
+				foreach (var item in obj.FileForUpload)
+				{
+					string itemPropertyPath = string.Format(FileForUploadPropertyPath + ".{0}", Count);
+					
+					//CollectionPropertyBodyClass
+					ID = item.SerializeBlob(ID, Count++, FileForUploadID, "FileForUpload", itemPropertyPath, ref SerializeDataList);
+					
+					//CollectionPropertyEnd
+				}
+			}
+			
+			//CollectionPropertyStart
+			if(obj.CheckListAnswer != null)
+			{
+				int CheckListAnswerID = ID;
+				string CheckListAnswerPropertyPath = string.Format("{0}.{1}", propertyPath, "CheckListAnswer");
+				SerializeDataList.Add(ID++, "CheckListAnswer",null ,Index , ParentID, "VeriBranch.Framework.Definitions.VPCheckListAnswer[]",CheckListAnswerPropertyPath);
+				int Count = 0;
+				foreach (var item in obj.CheckListAnswer)
+				{
+					string itemPropertyPath = string.Format(CheckListAnswerPropertyPath + ".{0}", Count);
+					
+					//CollectionPropertyBodyClass
+					ID = item.SerializeVPCheckListAnswer(ID, Count++, CheckListAnswerID, "CheckListAnswer", itemPropertyPath, ref SerializeDataList);
+					
+					//CollectionPropertyEnd
+				}
+			}
+			
+			//CollectionPropertyStart
+			if(obj.UploadedDocumentPackages != null)
+			{
+				int UploadedDocumentPackagesID = ID;
+				string UploadedDocumentPackagesPropertyPath = string.Format("{0}.{1}", propertyPath, "UploadedDocumentPackages");
+				SerializeDataList.Add(ID++, "UploadedDocumentPackages",null ,Index , ParentID, "VeriBranch.Framework.Definitions.VPUploadedDocumentPackage[]",UploadedDocumentPackagesPropertyPath);
+				int Count = 0;
+				foreach (var item in obj.UploadedDocumentPackages)
+				{
+					string itemPropertyPath = string.Format(UploadedDocumentPackagesPropertyPath + ".{0}", Count);
+					
+					//CollectionPropertyBodyClass
+					ID = item.SerializeVPUploadedDocumentPackage(ID, Count++, UploadedDocumentPackagesID, "UploadedDocumentPackages", itemPropertyPath, ref SerializeDataList);
+					
+					//CollectionPropertyEnd
+				}
+			}
+			
+			//CollectionPropertyStart
+			if(obj.OtherUploadedDocumentCodes != null)
+			{
+				int OtherUploadedDocumentCodesID = ID;
+				string OtherUploadedDocumentCodesPropertyPath = string.Format("{0}.{1}", propertyPath, "OtherUploadedDocumentCodes");
+				SerializeDataList.Add(ID++, "OtherUploadedDocumentCodes",null ,Index , ParentID, "System.String[]",OtherUploadedDocumentCodesPropertyPath);
+				int Count = 0;
+				foreach (var item in obj.OtherUploadedDocumentCodes)
+				{
+					string itemPropertyPath = string.Format(OtherUploadedDocumentCodesPropertyPath + ".{0}", Count);
+					
+					//CollectionPropertyBodyPrimative
+					SerializeDataList.Add(ID++,"OtherUploadedDocumentCodes", item , Count++, OtherUploadedDocumentCodesID, "System.String[]", string.Format("{0}.{1}", itemPropertyPath, "OtherUploadedDocumentCodes"));
+					
+					//CollectionPropertyEnd
+				}
+			}
+			
+			//PropertyPrimitive
+			if(obj.IsRetry != null)
+				SerializeDataList.Add(ID++,  "IsRetry", obj.IsRetry,null , ParentID, "System.Boolean", string.Format("{0}.{1}", propertyPath, "IsRetry"));
+			
+			//PropertyClass
+			if(obj.ReferCardApprovalFlag != null)
+				ID = obj.ReferCardApprovalFlag.SerializeReferCardApprovalFlags(ID, null, ParentID, "ReferCardApprovalFlag", propertyPath, ref SerializeDataList);
+			
+			//PropertyPrimitive
+			if(obj.ApprovalDepartment != null)
+				SerializeDataList.Add(ID++,  "ApprovalDepartment", obj.ApprovalDepartment,null , ParentID, "VeriBranch.Framework.Definitions.ApprovalDepartmentEnum", string.Format("{0}.{1}", propertyPath, "ApprovalDepartment"));
+			
+			//PropertyClass
+			if(obj.LogFields != null)
+				ID = obj.LogFields.SerializeLogField(ID, null, ParentID, "LogFields", propertyPath, ref SerializeDataList);
+			
+			//PropertyPrimitive
+			if(!string.IsNullOrEmpty(obj.ReferenceNumber))
+				SerializeDataList.Add(ID++,  "ReferenceNumber", obj.ReferenceNumber,null , ParentID, "System.String", string.Format("{0}.{1}", propertyPath, "ReferenceNumber"));
+			
+			//PropertyPrimitive
+			if(!string.IsNullOrEmpty(obj.NonStpTrackingNumber))
+				SerializeDataList.Add(ID++,  "NonStpTrackingNumber", obj.NonStpTrackingNumber,null , ParentID, "System.String", string.Format("{0}.{1}", propertyPath, "NonStpTrackingNumber"));
+			
+			//PropertyPrimitive
+			if(obj.NonStpTransactionID != null)
+				SerializeDataList.Add(ID++,  "NonStpTransactionID", obj.NonStpTransactionID,null , ParentID, "System.Int64", string.Format("{0}.{1}", propertyPath, "NonStpTransactionID"));
+			
+			//PropertyPrimitive
+			if(obj.NonStpTransactionGroupID != null)
+				SerializeDataList.Add(ID++,  "NonStpTransactionGroupID", obj.NonStpTransactionGroupID,null , ParentID, "System.Int64", string.Format("{0}.{1}", propertyPath, "NonStpTransactionGroupID"));
+			return ID;
+			
+			//TypeEnd
+		}
+		
+		//TypeStart
+		public static VpSerializedDataList SerializeVpRetailAMLCheckInquiryResponse(this Common.Definitions.UserManagement.VpRetailAMLCheckInquiryResponse obj, List<Cryptology> propertiesToEncrypt = null)
+		{
+			var list = new VpSerializedDataList(propertiesToEncrypt);
+			obj.SerializeVpRetailAMLCheckInquiryResponse( 0, null, null, "VpRetailAMLCheckInquiryResponse", string.Empty, ref list);
+			return list;
+		}
+		
+		public static int SerializeVpRetailAMLCheckInquiryResponse(Common.Definitions.UserManagement.VpRetailAMLCheckInquiryResponse obj, int ID, int? Index, int? ParentID, string propertyName, string propertyPath, ref VpSerializedDataList SerializeDataList, bool dummy = false)
+		{
+			return obj.SerializeVpRetailAMLCheckInquiryResponse(ID, Index, ParentID, propertyName, propertyPath, ref SerializeDataList);
+		}
+		internal static int SerializeVpRetailAMLCheckInquiryResponse(this Common.Definitions.UserManagement.VpRetailAMLCheckInquiryResponse obj, int ID, int? Index, int? ParentID, string propertyName, string propertyPath, ref VpSerializedDataList SerializeDataList)
+		{
+			if (obj==null)
+				return 0;
+			
+			int propertyParentID = ID;
+			
+			// Base type
+			propertyPath = string.IsNullOrEmpty(propertyPath) ? propertyName : string.Format("{0}.{1}", propertyPath, propertyName);
+			SerializeDataList.Add(ID++, propertyName, null, Index, ParentID, "Common.Definitions.UserManagement.VpRetailAMLCheckInquiryResponse", propertyPath);
+			ParentID = propertyParentID;
+			
+			//PropertyClass
+			if(obj.IALRetailAMLCheckResponse != null)
+				ID = obj.IALRetailAMLCheckResponse.SerializeVpRetailAMLCheckResponse(ID, null, ParentID, "IALRetailAMLCheckResponse", propertyPath, ref SerializeDataList);
+			
+			//PropertyPrimitive
+			if(obj.ExecutionStatus != null)
+				SerializeDataList.Add(ID++,  "ExecutionStatus", obj.ExecutionStatus,null , ParentID, "VeriBranch.Framework.Definitions.ExecutionStatusEnum", string.Format("{0}.{1}", propertyPath, "ExecutionStatus"));
+			
+			//PropertyPrimitive
+			if(obj.IsSuccess != null)
+				SerializeDataList.Add(ID++,  "IsSuccess", obj.IsSuccess,null , ParentID, "System.Boolean", string.Format("{0}.{1}", propertyPath, "IsSuccess"));
+			
+			//PropertyPrimitive
+			if(obj.IsRescheduled != null)
+				SerializeDataList.Add(ID++,  "IsRescheduled", obj.IsRescheduled,null , ParentID, "System.Boolean", string.Format("{0}.{1}", propertyPath, "IsRescheduled"));
+			
+			//PropertyPrimitive
+			if(obj.CutoffRescheduled != null)
+				SerializeDataList.Add(ID++,  "CutoffRescheduled", obj.CutoffRescheduled,null , ParentID, "System.Boolean", string.Format("{0}.{1}", propertyPath, "CutoffRescheduled"));
+			
+			//PropertyPrimitive
+			if(!string.IsNullOrEmpty(obj.CurrentCulture))
+				SerializeDataList.Add(ID++,  "CurrentCulture", obj.CurrentCulture,null , ParentID, "System.String", string.Format("{0}.{1}", propertyPath, "CurrentCulture"));
+			
+			//PropertyClass
+			if(obj.Footer != null)
+				ID = obj.Footer.SerializeTransactionFooter(ID, null, ParentID, "Footer", propertyPath, ref SerializeDataList);
+			
+			//PropertyClass
+			if(obj.OTPInfo != null)
+				ID = obj.OTPInfo.SerializeOTPInfo(ID, null, ParentID, "OTPInfo", propertyPath, ref SerializeDataList);
+			
+			//PropertyPrimitive
+			if(!string.IsNullOrEmpty(obj.ResolvedExternalReferenceNumber))
+				SerializeDataList.Add(ID++,  "ResolvedExternalReferenceNumber", obj.ResolvedExternalReferenceNumber,null , ParentID, "System.String", string.Format("{0}.{1}", propertyPath, "ResolvedExternalReferenceNumber"));
+			
+			//PropertyPrimitive
+			if(!string.IsNullOrEmpty(obj.ResolvedPostingDateTime))
+				SerializeDataList.Add(ID++,  "ResolvedPostingDateTime", obj.ResolvedPostingDateTime,null , ParentID, "System.String", string.Format("{0}.{1}", propertyPath, "ResolvedPostingDateTime"));
+			
+			//PropertyPrimitive
+			if(!string.IsNullOrEmpty(obj.ReferenceNumber))
+				SerializeDataList.Add(ID++,  "ReferenceNumber", obj.ReferenceNumber,null , ParentID, "System.String", string.Format("{0}.{1}", propertyPath, "ReferenceNumber"));
+			
+			//PropertyPrimitive
+			if(!string.IsNullOrEmpty(obj.NonStpTrackingNumber))
+				SerializeDataList.Add(ID++,  "NonStpTrackingNumber", obj.NonStpTrackingNumber,null , ParentID, "System.String", string.Format("{0}.{1}", propertyPath, "NonStpTrackingNumber"));
+			
+			//PropertyPrimitive
+			if(obj.NonStpTransactionID != null)
+				SerializeDataList.Add(ID++,  "NonStpTransactionID", obj.NonStpTransactionID,null , ParentID, "System.Int64", string.Format("{0}.{1}", propertyPath, "NonStpTransactionID"));
+			
+			//PropertyPrimitive
+			if(obj.NonStpTransactionGroupID != null)
+				SerializeDataList.Add(ID++,  "NonStpTransactionGroupID", obj.NonStpTransactionGroupID,null , ParentID, "System.Int64", string.Format("{0}.{1}", propertyPath, "NonStpTransactionGroupID"));
+			return ID;
+			
+			//TypeEnd
+		}
+
+		//AssemblyEnd
+	}
+}
+
+
+
+		
